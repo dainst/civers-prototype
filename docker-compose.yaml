@@ -1,0 +1,14 @@
+version: "3"
+services: 
+  data-citation-service:
+    build: ./data-citation-service
+    volumes:
+      - "./data-citation-service/src:/usr/local/app/src:rw"
+    ports:
+      - 3005:3000
+  doi-service:
+    build: ./doi-service
+    volumes:
+      - "./doi-service/src:/usr/local/app/src:rw"
+    ports:
+      - 3006:3000
