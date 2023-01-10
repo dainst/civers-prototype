@@ -4,11 +4,15 @@ services:
     build: ./data-citation-service
     volumes:
       - "./data-citation-service/src:/usr/local/app/src:rw"
+    entrypoint: clj -M:nREPL -m nrepl.cmdline -p 47481 -b 0.0.0.0
     ports:
       - 3005:3000
+      - 47482:47481
   doi-service:
     build: ./doi-service
     volumes:
       - "./doi-service/src:/usr/local/app/src:rw"
+    entrypoint: clj -M:nREPL -m nrepl.cmdline -p 47481 -b 0.0.0.0
     ports:
       - 3006:3000
+      - 47483:47481
