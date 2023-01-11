@@ -1,10 +1,13 @@
 (ns server
-  (:require [ring.adapter.jetty :as j]
-            [compojure.core :refer [defroutes POST]]
-            [ring.middleware.json :as json]))
+  (:require [reloader.core :as reloader]
+            [ring.adapter.jetty :as j]
+            [ring.util.response :as response]
+            [compojure.core :refer [defroutes GET POST]]
+            [ring.middleware.json :as json]
+            [ring.middleware.resource :refer [wrap-resource]]))
 
 (defn api-handler [{{msg :msg} :body}]
-  {:body {:answer-from-doi-service msg}})
+  {:body {:echo-doi (str msg "?")}})
 
 (defn wrap-api [handler]
   (-> handler
@@ -12,8 +15,14 @@
       (json/wrap-json-body {:keywords? true})))
 
 (defroutes routes
-  (POST "/api" [] (wrap-api api-handler)))
+  (POST "/api" [] (wrap-api api-handler))
+  (GET "/" [] (response/resource-response "public/index.html")))
+
+(def app
+  (-> routes
+      (wrap-resource "public")))
 
 (defn -main
   [& _args]
-  (j/run-jetty routes {:port 3000}))
+  (reloader/start ["src"])
+  (j/run-jetty #'app {:port 3000}))
