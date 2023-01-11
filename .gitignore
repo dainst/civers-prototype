@@ -1,3 +1,5 @@
+**/*/node_modules
+**/*/.shadow-cljs
 **/*/.cpcache
 .clj-kondo
 .lsp

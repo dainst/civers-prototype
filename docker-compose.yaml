@@ -1,18 +1,29 @@
 version: "3"
 services: 
-  data-citation-service:
-    build: ./data-citation-service
+  data-citation-service-api:
+    build: ./data-citation-service-api
     volumes:
-      - "./data-citation-service/src:/usr/local/app/src:rw"
-    entrypoint: clj -M:nREPL -m nrepl.cmdline -p 47481 -b 0.0.0.0
+      - "./data-citation-service-api/src:/usr/local/app/src:rw"
+      - "./data-citation-service-api/resources:/usr/local/app/resources:rw"
+    # entrypoint: clj -M:nREPL -m nrepl.cmdline -p 47481 -b 0.0.0.0
+    entrypoint: clj -M -m server
     ports:
       - 3005:3000
       - 47482:47481
-  doi-service:
-    build: ./doi-service
+  data-citation-service-ui:
+    build: ./data-citation-service-ui
     volumes:
-      - "./doi-service/src:/usr/local/app/src:rw"
-    entrypoint: clj -M:nREPL -m nrepl.cmdline -p 47481 -b 0.0.0.0
+      - "./data-citation-service-ui/src:/usr/local/app/src:rw"
+    entrypoint: npx shadow-cljs watch app
+    ports: 
+      - 8020:8020
+      - 9630:9630
+  doi-service-api:
+    build: ./doi-service-api
+    volumes:
+      - "./doi-service-api/src:/usr/local/app/src:rw"
+    # entrypoint: clj -M:nREPL -m nrepl.cmdline -p 47481 -b 0.0.0.0
+    entrypoint: clj -M -m server
     ports:
       - 3006:3000
       - 47483:47481

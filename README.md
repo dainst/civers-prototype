@@ -1,5 +1,17 @@
 # data citation service prototype
 
+## Prerequisites 
+
+- Docker
+
+## Getting started
+
+    $ docker-compose up
+    Visit http://localhost:8020
+    Check site renders. Check console (msg: hi).
+
+## Notes
+
 Run
 
     $ docker-compose -f docker-compose.yaml run --service-ports --entrypoint "/bin/bash" data-citation-service
