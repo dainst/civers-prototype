@@ -4,7 +4,7 @@
             [ring.middleware.json :as json]))
 
 (defn api-handler [{{msg :msg} :body}]
-  {:body {:echo1 msg}})
+  {:body {:answer-from-doi-service msg}})
 
 (defn wrap-api [handler]
   (-> handler
