@@ -10,6 +10,8 @@
     Visit http://localhost:8020
     Check site renders. Check console (msg: hi).
 
+This gives you hot code reload for frontend and backend.
+
 ## Notes
 
 Run

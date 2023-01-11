@@ -1,5 +1,5 @@
 (ns server
-  (:require [clojure.java.io :as io]
+  (:require [reloader.core :as reloader]
             [ring.adapter.jetty :as j]
             [ring.util.response :as response]
             [compojure.core :refer [defroutes GET POST]]
@@ -7,7 +7,7 @@
             [ring.middleware.resource :refer [wrap-resource]]))
 
 (defn api-handler [{{msg :msg} :body}]
-  {:body {:echo msg}})
+  {:body {:echo (str msg "!")}})
 
 (defn wrap-api [handler]
   (-> handler
@@ -24,4 +24,5 @@
 
 (defn -main
   [& _args]
-  (j/run-jetty app {:port 3000}))
+  (reloader/start ["src"])
+  (j/run-jetty #'app {:port 3000}))
