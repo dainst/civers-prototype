@@ -17,7 +17,7 @@
    [:p "I am a component"]
    [:p.someclass
     "I have " [:strong "bold"]
-    [:span {:style {:color "red"}} " and red!!! "] "text."]])
+    [:span {:style {:color "red"}} " and red!!!"] "text."]])
 
 (defn init
   []

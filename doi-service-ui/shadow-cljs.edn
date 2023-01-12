@@ -6,6 +6,9 @@
   [cheshire "5.11.0"]
   [reagent "1.1.1"]]
 
+ :http
+ {:port 9631}
+ 
  :dev-http
  {8021 {:root      "resources/public"
         :proxy-url "http://doi-service-api:3000"}}

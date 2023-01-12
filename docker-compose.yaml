@@ -18,7 +18,7 @@ services:
     entrypoint: npx shadow-cljs watch app
     ports: 
       - 8020:8020
-      # - 9630:9630
+      - 9630:9630
 
   doi-service-api:
     build: ./doi-service-api
@@ -38,4 +38,4 @@ services:
     entrypoint: npx shadow-cljs watch app
     ports: 
       - 8021:8021
-      - 9630:9630
+      - 9631:9631
