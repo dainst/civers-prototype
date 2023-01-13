@@ -6,7 +6,7 @@ services:
     volumes: 
       - "./scraping-service-api/src:/usr/local/app/src:rw"
       - "./storage:/usr/local/app/resources/public/storage:rw"
-    entrypoint: python src/server.py
+    entrypoint: python3 src/server.py
     ports:
       - 5005:5000
 
