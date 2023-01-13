@@ -1,10 +1,21 @@
 version: "3"
 services: 
+
+  scraping-service-api:
+    build: ./scraping-service-api
+    volumes: 
+      - "./scraping-service-api/src:/usr/local/app/src:rw"
+      - "./storage:/usr/local/app/resources/public/storage:rw"
+    entrypoint: python src/server.py
+    ports:
+      - 5005:5000
+
   data-citation-service-api:
     build: ./data-citation-service-api
     volumes:
       - "./data-citation-service-api/src:/usr/local/app/src:rw"
       - "./data-citation-service-api/resources:/usr/local/app/resources:rw"
+      - "./storage:/usr/local/app/resources/public/storage:rw"
     # entrypoint: clj -M:nREPL -m nrepl.cmdline -p 47481 -b 0.0.0.0
     entrypoint: clj -M -m server
     ports:
