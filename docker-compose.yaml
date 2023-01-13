@@ -5,7 +5,7 @@ services:
     build: ./scraping-service-api
     volumes: 
       - "./scraping-service-api/src:/usr/local/app/src:rw"
-      - "./storage:/usr/local/app/resources/public/storage:rw"
+      - "./storage:/usr/local/app/storage:rw"
     entrypoint: python3 src/server.py
     ports:
       - 5005:5000

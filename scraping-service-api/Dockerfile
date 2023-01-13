@@ -9,4 +9,4 @@ RUN apt-get update
 RUN apt-get install python3-pip -y
 
 RUN pip3 install flask
-RUN python3 --version
+RUN pip3 install selenium==3.8.0
