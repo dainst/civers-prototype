@@ -7,7 +7,8 @@
             [ring.middleware.resource :refer [wrap-resource]]))
 
 (defn api-handler [{{msg :msg} :body}]
-  {:body {:echo-doi (str msg "?")}})
+  (prn "doi api handler" msg "...")
+  {:body {:doi msg}})
 
 (defn wrap-api [handler]
   (-> handler

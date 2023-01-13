@@ -9,8 +9,11 @@ chrome_options.add_argument('--headless')
 chrome_options.add_argument('--disable-gpu')
 driver = webdriver.Chrome(chrome_options=chrome_options)
 
-from flask import Flask, request
+from flask import Flask, request, jsonify
 app = Flask(__name__)
+
+
+## TODO auto reload possible?
 
 # sys.exit()
 
@@ -19,16 +22,18 @@ app = Flask(__name__)
 @app.route('/api/take-screenshot', methods=['POST'])
 def hello_world():
     url = request.json['url']
+    target = request.json['target']
     driver.get(url)
     time.sleep(3)
-    driver.save_screenshot('storage/test.png')
+    driver.save_screenshot('storage/' + target + '.png')
     print(driver.title)
     print(driver.current_url)
-    driver.quit()
-    return 'Hello World!'
+    return jsonify(status="ok")
 
 if __name__ == '__main__':
     app.run(
         # Necessary for it to work inside a Docker container
         host="0.0.0.0"
     )
+
+# driver.quit()

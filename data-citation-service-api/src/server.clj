@@ -8,12 +8,23 @@
             [ring.middleware.json :as json]
             [ring.middleware.resource :refer [wrap-resource]]))
 
-(defn api-handler [{{msg :msg} :body}]
-  (prn (cheshire/parse-string (:body (client/post "http://doi-service-api:3000/api"
-                                              {:body         "{\"msg\": \"hello\"}"
-                                               :content-type :json
-                                               :accept       :json}))))
-  {:body {:echo (str msg "!")}})
+(defn- do-post [url json-body]
+  (:body (client/post url {:body         (cheshire/generate-string json-body)
+                           :as           :json
+                           :content-type :json
+                           :accept       :json})))
+
+(defn api-handler [{{url :url} :body}]
+  (let [doi "test123"
+        doi
+        (:doi 
+         (do-post "http://doi-service-api:3000/api" {:msg doi}))]
+    
+    (prn "status from take screenshot" 
+         (:status
+          (do-post "http://scraping-service-api:5000/api/take-screenshot" {:url url :target doi})))
+    
+    {:body {:doi doi}}))
 
 (defn wrap-api [handler]
   (-> handler
