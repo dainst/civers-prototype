@@ -2,9 +2,9 @@
   (:require [ring.adapter.jetty :as j]
             [ring.util.response :as response]
             [compojure.core :refer [defroutes GET POST]]
-            [ring.middleware.reload :as reload]
             [ring.middleware.json :as json]
             [ring.middleware.resource :refer [wrap-resource]]
+            [ring.middleware.reload :as reload]
             [mount.core :as mount]
             api))
 

@@ -5,4 +5,5 @@
 .lsp
 .calva
 archive/*.png
-data
+citator-data
+doi-registrar-data

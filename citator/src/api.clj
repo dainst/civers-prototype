@@ -24,9 +24,9 @@
 #_{:clj-kondo/ignore [:unresolved-var]}
 (defn handler [{{url :url} :body}]
   (let [doi (subs (.toString (java.util.UUID/randomUUID)) 0 8)
-        doi
-        (:doi
-         (do-post "http://doi-registrar:3000/api" {:msg doi}))]
+        _ (do-post "http://doi-registrar:3000/api" {:doi doi
+                                                   ;; TODO review
+                                                    :url (str "http://localhost:8020/resource/" doi)})]
     
     (prn "status from take screenshot"
          (:status

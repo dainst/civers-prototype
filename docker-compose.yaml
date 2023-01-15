@@ -15,7 +15,7 @@ services:
     volumes:
       - "./citator/src:/usr/local/app/src:rw"
       - "./citator/resources:/usr/local/app/resources:rw"
-      - "./data:/usr/local/app/data:rw"
+      - "./citator-data:/usr/local/app/data:rw"
       - "./archive:/usr/local/app/resources/public/archive:rw"
     # entrypoint: clj -M:nREPL -m nrepl.cmdline -p 47482 -b 0.0.0.0
     entrypoint: clj -M -m server
@@ -37,6 +37,7 @@ services:
     volumes:
       - "./doi-registrar/src:/usr/local/app/src:rw"
       - "./doi-registrar/resources:/usr/local/app/resources:rw"
+      - "./doi-registrar-data:/usr/local/app/data:rw"
     # entrypoint: clj -M:nREPL -m nrepl.cmdline -p 47483 -b 0.0.0.0
     entrypoint: clj -M -m server
     ports:
