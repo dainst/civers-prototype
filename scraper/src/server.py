@@ -25,7 +25,7 @@ def hello_world():
     target = request.json['target']
     driver.get(url)
     time.sleep(3)
-    driver.save_screenshot('storage/' + target + '.png')
+    driver.save_screenshot('archive/' + target + '.png')
     print(driver.title)
     print(driver.current_url)
     return jsonify(status="ok")

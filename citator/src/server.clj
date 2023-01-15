@@ -1,30 +1,11 @@
 (ns server
-  (:require [clj-http.client :as client]
-            [cheshire.core :as cheshire]
-            [reloader.core :as reloader]
+  (:require [reloader.core :as reloader]
             [ring.adapter.jetty :as j]
             [ring.util.response :as response]
             [compojure.core :refer [defroutes GET POST]]
             [ring.middleware.json :as json]
-            [ring.middleware.resource :refer [wrap-resource]]))
-
-(defn- do-post [url json-body]
-  (:body (client/post url {:body         (cheshire/generate-string json-body)
-                           :as           :json
-                           :content-type :json
-                           :accept       :json})))
-
-(defn api-handler [{{url :url} :body}]
-  (let [doi "test123"
-        doi
-        (:doi 
-         (do-post "http://doi-service-api:3000/api" {:msg doi}))]
-    
-    (prn "status from take screenshot" 
-         (:status
-          (do-post "http://scraping-service-api:5000/api/take-screenshot" {:url url :target doi})))
-    
-    {:body {:doi doi}}))
+            [ring.middleware.resource :refer [wrap-resource]]
+            api))
 
 (defn wrap-api [handler]
   (-> handler
@@ -32,7 +13,7 @@
       (json/wrap-json-body {:keywords? true})))
 
 (defroutes routes
-  (POST "/api" [] (wrap-api api-handler))
+  (POST "/api" [] (wrap-api api/handler))
   (GET "/resource/:id" [] (response/resource-response "public/index.html"))
   (GET "/" [] (response/resource-response "public/index.html")))
 
