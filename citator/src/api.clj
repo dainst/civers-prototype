@@ -10,12 +10,20 @@
                            :content-type :json
                            :accept       :json})))
 
+(defn get-handler [_]
+  (let [resources (xt/q (xt/db datastore/xtdb-node)
+                        '{:find  [e url]
+                          :where [[e :user/name "citator"]
+                                  [e :url url]]})
+        resources (map (fn [[doi url]] {:doi doi
+                                        :url url}) resources)]
+    {:body {:resources resources}}))
+
 (defn handler [{{url :url} :body}]
   (let [doi (subs (.toString (java.util.UUID/randomUUID)) 0 8)
         doi
         (:doi
          (do-post "http://doi-registrar:3000/api" {:msg doi}))]
-
     
     (prn "status from take screenshot"
          (:status

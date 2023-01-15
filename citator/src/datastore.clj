@@ -12,8 +12,6 @@
       :xtdb/document-store (kv-store "data/dev/doc-store")
       :xtdb/index-store (kv-store "data/dev/index-store")})))
 
-(prn "starting xtdb node")
-
 (defonce xtdb-node (start-xtdb!))
 
 (defn stop-xtdb! []

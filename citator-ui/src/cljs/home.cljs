@@ -1,6 +1,6 @@
 (ns home
   (:require [reagent.core :as r]
-            [ajax.core :refer [POST]]))
+            [ajax.core :refer [GET POST]]))
 
 (defn atom-input [value]
   [:input {:type "text"
@@ -17,23 +17,31 @@
                              (reset! resources resources*)))
                 :error-handler (fn [resp] (prn "Error response:" resp))}))
 
-;; TODO extract
+(defn fetch-resources [resources]
+  (GET "/api" {:headers       {"Content-Type" "application/json"}
+               :handler       (fn [resp]
+                                (let [resources* (get resp "resources")]
+                                  (reset! resources resources*)))
+               :error-handler (fn [resp] (prn "Error response:" resp))}))
 
 (defn resources-component [_resources]
   (fn [resources]
-    [:ul 
-     (map (fn [{url "url" doi "doi"}]
-            [:li {:key doi}
-             [:a {:href (str "/resource/" doi)} doi] (str "  " url)]
-            ) @resources)]))
+    [:<>
+     [:hr]
+     [:h2 "Resources"]
+     [:ul 
+      (map (fn [{url "url" doi "doi"}]
+             [:li {:key doi}
+              [:a {:href (str "/resource/" doi)} doi] (str "  " url)]
+             ) @resources)]]))
 
 ;; TODO implement active search, use r/let to make a fetch call
 (defn component []
   (let [url (r/atom "")
         generated-handle (r/atom "")
         resources (r/atom '())]
+    (fetch-resources resources)
     (fn []
-      (prn @resources)
       [:<>
        [:h1 "Data Citation Service"]
        [:p "Insert a url here and submit"]
