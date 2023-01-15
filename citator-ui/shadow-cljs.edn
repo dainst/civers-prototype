@@ -11,7 +11,7 @@
  
  :dev-http
  {8020 {:root      "resources/public"
-        :proxy-url "http://data-citation-service-api:3000"}}
+        :proxy-url "http://citator:3000"}}
 
  :builds
  {:app

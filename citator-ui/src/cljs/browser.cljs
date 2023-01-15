@@ -39,6 +39,7 @@
 
 (defn init
   []
+  (prn "url" (-> js/window .-location .-href))
   (.render root (r/as-element [main-component])))
 
 ;; start is called by init and after code reloading finishes

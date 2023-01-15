@@ -33,6 +33,7 @@
 
 (defroutes routes
   (POST "/api" [] (wrap-api api-handler))
+  (GET "/resource/:id" [] (response/resource-response "public/index.html"))
   (GET "/" [] (response/resource-response "public/index.html")))
 
 (def app

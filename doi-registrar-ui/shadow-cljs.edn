@@ -11,7 +11,7 @@
  
  :dev-http
  {8021 {:root      "resources/public"
-        :proxy-url "http://doi-service-api:3000"}}
+        :proxy-url "http://doi-registrar:3000"}}
 
  :builds
  {:app
