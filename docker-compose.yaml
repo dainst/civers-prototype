@@ -15,12 +15,13 @@ services:
     volumes:
       - "./citator/src:/usr/local/app/src:rw"
       - "./citator/resources:/usr/local/app/resources:rw"
+      - "./data:/usr/local/app/data:rw"
       - "./archive:/usr/local/app/resources/public/archive:rw"
-    # entrypoint: clj -M:nREPL -m nrepl.cmdline -p 47481 -b 0.0.0.0
+    # entrypoint: clj -M:nREPL -m nrepl.cmdline -p 47482 -b 0.0.0.0
     entrypoint: clj -M -m server
     ports:
       - 3005:3000
-      - 47482:47481
+      - 47482:47482
 
   citator-ui:
     build: ./citator-ui

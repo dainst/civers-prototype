@@ -3,6 +3,7 @@
 ## Prerequisites 
 
 - Docker
+- docker-compose
 
 ## Getting started
 
@@ -12,12 +13,15 @@
 
 This gives you hot code reload for frontend and backend.
 
+## Clean up 
+
+    $ ./clean.sh
+
 ## Notes
 
 Run
 
-    $ docker-compose -f docker-compose.yaml run --service-ports --entrypoint "/bin/bash" data-citation-service
-    $ docker-compose -f docker-compose.yaml run --service-ports --entrypoint "/bin/bash" doi-service
+    $ docker-compose -f docker-compose.yaml run --service-ports --entrypoint "/bin/bash" citator
 
 Inside both of the containers
 
