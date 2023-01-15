@@ -1,5 +1,6 @@
 (ns datastore
   (:require [clojure.java.io :as io]
+            [mount.core :as mount]
             [xtdb.api :as xt]))
 
 (defn start-xtdb! []
@@ -12,7 +13,15 @@
       :xtdb/document-store (kv-store "data/dev/doc-store")
       :xtdb/index-store (kv-store "data/dev/index-store")})))
 
-(defonce xtdb-node (start-xtdb!))
-
-(defn stop-xtdb! []
+(defn stop-xtdb! [xtdb-node]
   (.close xtdb-node))
+
+#_{:clj-kondo/ignore [:unresolved-symbol]}
+(mount/defstate xtdb-node
+  :start (do
+           (tap> [:xtdb-node :up])
+           (start-xtdb!))
+  :stop (do
+          (tap> [:xtdb-node :down])
+          (stop-xtdb! xtdb-node)
+          nil))

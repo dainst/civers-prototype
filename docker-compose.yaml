@@ -37,11 +37,11 @@ services:
     volumes:
       - "./doi-registrar/src:/usr/local/app/src:rw"
       - "./doi-registrar/resources:/usr/local/app/resources:rw"
-    # entrypoint: clj -M:nREPL -m nrepl.cmdline -p 47481 -b 0.0.0.0
+    # entrypoint: clj -M:nREPL -m nrepl.cmdline -p 47483 -b 0.0.0.0
     entrypoint: clj -M -m server
     ports:
       - 3006:3000
-      - 47483:47481
+      - 47483:47483
 
   doi-registrar-ui:
     build: ./doi-registrar-ui

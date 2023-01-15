@@ -1,10 +1,11 @@
 (ns server
-  (:require [reloader.core :as reloader]
-            [ring.adapter.jetty :as j]
+  (:require [ring.adapter.jetty :as j]
             [ring.util.response :as response]
             [compojure.core :refer [defroutes GET POST]]
+            [ring.middleware.reload :as reload]
             [ring.middleware.json :as json]
             [ring.middleware.resource :refer [wrap-resource]]
+            [mount.core :as mount]
             api))
 
 (defn wrap-api [handler]
@@ -20,9 +21,18 @@
 
 (def app
   (-> routes
+      reload/wrap-reload
       (wrap-resource "public")))
+
+#_{:clj-kondo/ignore [:unresolved-symbol]}
+(mount/defstate ^{:on-reload :noop} http-server
+  :start
+  (future (j/run-jetty app {:port 3000}))
+  :stop 0)
 
 (defn -main
   [& _args]
-  (reloader/start ["src"])
-  (j/run-jetty #'app {:port 3000}))
+  (prn (mount/start))
+  (.addShutdownHook (Runtime/getRuntime) (Thread. #(prn (mount/stop))))
+  #_{:clj-kondo/ignore [:unresolved-symbol]}
+  (deref http-server))

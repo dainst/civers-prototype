@@ -17,6 +17,32 @@ This gives you hot code reload for frontend and backend.
 
     $ ./clean.sh
 
+## Development notes
+
+### Working with the REPL
+
+- uncomment one and comment the other entrypoint in docker-compose.yml, for a given service
+- `docker-compose up`
+- connect to the given REPL port from from you editor 
+
+then do
+
+```clojure
+clj:user:> (require '[mount.core :as mount]
+                    'server)
+nil
+clj:user:>
+(add-tap (bound-fn* clojure.pprint/pprint))
+nil
+clj:user:> (mount/start)
+{:started ["#'resources/resources" "#'server/http-server"]}
+```
+
+### Rebuilding containers
+
+- TODO describe when necessary
+- mention docker system prune
+
 ## Notes
 
 Run
