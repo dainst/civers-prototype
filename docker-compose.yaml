@@ -52,3 +52,12 @@ services:
     ports: 
       - 8021:8021
       - 9631:9631
+
+  widget-host:
+    build: ./widget-host
+    entrypoint: clj -M -m server
+    volumes:
+      - "./widget-host/src:/usr/local/app/src:rw"
+      - "./widget-host/resources:/usr/local/app/resources:rw"
+    ports:
+      - 8022:3000
