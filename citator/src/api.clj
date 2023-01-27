@@ -1,14 +1,7 @@
 (ns api
-  (:require [clj-http.client :as client]
-            [cheshire.core :as cheshire]
-            [xtdb.api :as xt]
-            datastore))
-
-(defn- do-post [url json-body]
-  (:body (client/post url {:body         (cheshire/generate-string json-body)
-                           :as           :json
-                           :content-type :json
-                           :accept       :json})))
+  (:require [xtdb.api :as xt]
+            datastore
+            scraper))
 
 #_{:clj-kondo/ignore [:unresolved-var]}
 (defn get-handler [_]
@@ -23,27 +16,12 @@
 
 #_{:clj-kondo/ignore [:unresolved-var]}
 (defn handler [{{url :url} :body}]
-  (let [doi (subs (.toString (java.util.UUID/randomUUID)) 0 8)
-        _ (do-post "http://doi-registrar:3000/api" {:doi doi
-                                                   ;; TODO review
-                                                    :url (str "http://localhost:8020/resource/" doi)})]
-    
-    (prn "status from take screenshot"
-         (:status
-          (do-post "http://scraper:5000/api/take-screenshot" {:url url :target doi})))
-
-    (xt/submit-tx datastore/xtdb-node [[::xt/put
-                                        {:xt/id     doi
-                                         :url       url
-                                         :user/name "citator"}]])
-    
-    (xt/sync datastore/xtdb-node)
-    
-    (let [resources (xt/q (xt/db datastore/xtdb-node) 
+  (let [doi (scraper/take-screenshot url)
+        resources (xt/q (xt/db datastore/xtdb-node) 
                           '{:find  [e url]
                             :where [[e :user/name "citator"]
                                     [e :url url]]})
           resources (map (fn [[doi url]] {:doi doi
                                          :url url}) resources)]
       {:body {:doi doi
-              :resources resources}})))
+              :resources resources}}))
