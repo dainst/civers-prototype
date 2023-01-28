@@ -3,24 +3,40 @@
             datastore
             scraper))
 
-#_{:clj-kondo/ignore [:unresolved-var]}
-(defn- fetch-resources []
+(defn- format-date [date]
+  (.format (java.text.SimpleDateFormat. "yyyy-MM-dd HH:mm") date))
+
+(defn- fetch-resources [node]
   (let [resources (map first (xt/q
-                              (xt/db datastore/xtdb-node)
+                              (xt/db node)
                               '{:find     [(pull ?e [*]) date]
                                 :where    [[?e :date date]]
                                 :order-by [[date :desc]]
                                 }))]
     
-    (map (fn [{date :date :as resource}]
-           (assoc resource :date (.format (java.text.SimpleDateFormat. "yyyy-MM-dd HH:mm") date)))
-         resources)))
+    (map #(update % :date format-date) resources)))
 
+#_{:clj-kondo/ignore [:unresolved-var]}
+(defn- fetch-resource [node doi]
+ (-> (xt/q (xt/db node)
+           '{:find  [(pull ?e [*])]
+             :in    [doi]
+             :where [[?e :xt/id doi]]}
+           doi)
+     ffirst
+     (update :date format-date)))
+
+#_{:clj-kondo/ignore [:unresolved-var]}
 (defn get-handler [_]
-  {:body {:resources (fetch-resources)}})
+  {:body {:resources (fetch-resources datastore/xtdb-node)}})
 
 #_{:clj-kondo/ignore [:unresolved-var]}
 (defn handler [{{url :url} :body}]
   (let [doi (scraper/take-screenshot! url)]
       {:body {:doi doi
-              :resources (fetch-resources)}}))
+              :resources (fetch-resources datastore/xtdb-node)}}))
+
+#_{:clj-kondo/ignore [:unresolved-var]}
+(defn get-resource-handler [req]
+  (let [doi (:doi (:route-params req))]
+    {:body (fetch-resource datastore/xtdb-node doi)}))

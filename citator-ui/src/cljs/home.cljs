@@ -7,7 +7,7 @@
            :value @value
            :on-change #(reset! value (-> % .-target .-value))}])
 
-(defn fetch [url generated-handle resources]
+(defn archive-url! [url generated-handle resources]
   (POST "/api" {:body (.stringify js/JSON (clj->js {:url url}))
                 :headers {"Content-Type" "application/json"}
                 :handler (fn [resp] 
@@ -33,7 +33,9 @@
       (map (fn [{url "url" doi "doi" date "date"}]
              [:li {:key doi}
               date " "
-              [:a {:href (str "/resource/" doi)} doi] (str " " url)]
+              [:a {:href (str "/resource/" doi)} doi] 
+              " "
+              [:a {:href url} url]]
              ) @resources)]]))
 
 ;; TODO implement active search, use r/let to make a fetch call
@@ -48,7 +50,7 @@
        [:p "Insert a url here and submit"]
        [atom-input url]
        [:input {:type :button
-                :on-click #(fetch @url generated-handle resources)
+                :on-click #(archive-url! @url generated-handle resources)
                 :value "submit"}]
        (when-not (= "" @generated-handle)
          [:p "Generated handle: "

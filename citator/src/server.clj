@@ -17,6 +17,7 @@
 
 (defroutes routes
   (GET "/api" [] (wrap-api api/get-handler))
+  (GET "/api/resource/:doi" [] (wrap-api api/get-resource-handler))
   (POST "/api" [] (wrap-api api/handler))
   (GET "/resource/:id" [] (response/resource-response "public/index.html"))
   (GET "/" [] (response/resource-response "public/index.html"))
