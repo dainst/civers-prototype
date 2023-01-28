@@ -31,7 +31,7 @@
     (fetch resources)
     (fn []
       [:<>
-       [:h1 "DOI Service"]
+       [:h1 "DOI Registrar"]
        [resources-component resources]])))
 
 (defn init

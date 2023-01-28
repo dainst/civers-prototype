@@ -43,7 +43,7 @@
     (fetch-resources resources)
     (fn []
       [:<>
-       [:h1 "Data Citation Service"]
+       [:h1 "Citator"]
        [:p "Insert a url here and submit"]
        [atom-input url]
        [:input {:type :button

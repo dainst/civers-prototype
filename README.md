@@ -1,5 +1,8 @@
 # data citation service prototype
 
+TODO add high level description
+See [docs/README.md](documentation)
+
 ## Prerequisites 
 
 - Docker
@@ -8,16 +11,26 @@
 ## Getting started
 
     $ docker-compose up
+
+This starts multiple services, three of which have addresses 
+one can visit in the browser:
+
+- http://localhost:8020 # The Citator
+- http://localhost:8021 # The DOI Registrar
+- http://localhost:8022 # The Widget Host
+
+See [docs/README.md](documentation)
+
+## Clean up
+
+    $ ./clean.sh (Mac and Linux; TODO write instructions for windows)
+
+## Development notes
+
     Visit http://localhost:8020
     Check site renders. Check console (msg: hi).
 
-This gives you hot code reload for frontend and backend.
-
-## Clean up 
-
-    $ ./clean.sh
-
-## Development notes
+This gives you hot code reload for frontend and backend. TODO review
 
 ### Working with the REPL
 
