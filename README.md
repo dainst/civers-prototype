@@ -1,7 +1,7 @@
 # data citation service prototype
 
 TODO add high level description
-See [./docs/README.md](documentation)
+See [documentation](./docs/README.md)
 
 ## Prerequisites 
 
@@ -19,7 +19,7 @@ one can visit in the browser:
 - http://localhost:8021 # The DOI Registrar
 - http://localhost:8022 # The Widget Host
 
-See [./docs/README.md](documentation)
+See [documentation](./docs/README.md)
 
 ## Clean up
 
