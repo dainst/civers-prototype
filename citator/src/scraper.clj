@@ -24,6 +24,11 @@
        (:status
         (do-post "http://scraper:5000/api/take-screenshot" {:url url :target doi}))))
 
+(defn- request-site-archival! [doi url]
+  (prn "status from archive site"
+       (:status
+        (do-post "http://scraper:5000/api/archive-site" {:url url :target doi}))))
+
 (defn- store [node resource id]
   (xt/submit-tx node
                 [[::xt/put
@@ -46,6 +51,7 @@
 
     (register-doi! doi)
     (request-screenshot! doi url)
+    (request-site-archival! doi url)
     #_{:clj-kondo/ignore [:unresolved-var]}
     (save-resource! datastore/xtdb-node doi url)
     

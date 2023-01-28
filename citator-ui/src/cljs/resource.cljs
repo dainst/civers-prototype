@@ -15,8 +15,11 @@
     (fetch-resource resource path)
     (fn [_path]
       [:<> [:h1 path]
-       [:a {:href (str "/archive/" path ".png")} "screenshot"]
+       [:br]
+       (get @resource "date")
        [:br]
        [:a {:href (get @resource "url")} (get @resource "url")]
        [:br]
-       (get @resource "date")])))
+       [:a {:href (str "/archive/" path ".png")} "screenshot"]
+       [:br]
+       [:a {:href (str "/archive/" path "/index.html")} "archived-site"]])))

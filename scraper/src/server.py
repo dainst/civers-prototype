@@ -1,6 +1,6 @@
 from selenium import webdriver
-# import sys
 import time
+import os
 
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument('--no-sandbox')
@@ -12,15 +12,10 @@ driver = webdriver.Chrome(chrome_options=chrome_options)
 from flask import Flask, request, jsonify
 app = Flask(__name__)
 
-
-## TODO auto reload possible?
-
-# sys.exit()
-
 # url = 'https://arachne.dainst.org/entity/2003162?fl=20&q=*&resultIndex=1'
 
 @app.route('/api/take-screenshot', methods=['POST'])
-def hello_world():
+def take_screenshot():
     url = request.json['url']
     target = request.json['target']
     driver.get(url)
@@ -29,6 +24,20 @@ def hello_world():
     print(driver.title)
     print(driver.current_url)
     return jsonify(status="ok")
+
+@app.route('/api/archive-site', methods=['POST'])
+def archive_site():
+    url = request.json['url']
+    target = request.json['target']
+    driver.get(url)
+    time.sleep(3)
+    content = driver.page_source
+    os.mkdir("archive/" + target)
+    f = open("archive/" + target + "/index.html", "w")
+    f.write(content)
+    f.close() 
+    return jsonify(status="ok")
+
 
 if __name__ == '__main__':
     app.run(
