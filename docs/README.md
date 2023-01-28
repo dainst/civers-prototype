@@ -51,7 +51,7 @@ Archive a site via Widget Host
 1. Visit Widget host
 1. Click Archive Site
 1. Visit Citator
-1. Refresh page
+1. The page should automatically refresh after 15 seconds. If the new resource is not there, refresh the page manually.
 1. Go to detail view
 1. Visit DOI Service
 1. Refresh page

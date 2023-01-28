@@ -24,19 +24,36 @@
                                   (reset! resources resources*)))
                :error-handler (fn [resp] (prn "Error response:" resp))}))
 
-(defn resources-component [_resources]
-  (fn [resources]
-    [:<>
-     [:hr]
-     [:h2 "Resources"]
-     [:ul 
-      (map (fn [{url "url" doi "doi" date "date"}]
-             [:li {:key doi}
-              date " "
-              [:a {:href (str "/resource/" doi)} doi] 
-              " "
-              [:a {:href url} url]]
-             ) @resources)]]))
+(defn- create-ws [resources]
+  (let [ws  (js/WebSocket. "ws://localhost:3005/ws")]
+    (set! (.-onopen ws)
+          (fn [a] (prn "onopen" (js/console.log a))))
+    (set! (.-onerror ws)
+          (fn [a] (prn "onerror" (js/console.log a))))
+    (set! (.-onclose ws)
+          (fn [a] (prn "onclose" (js/console.log a))))
+    (set! (.-onmessage ws)
+          (fn [_a]
+            #_(prn ".." (.-data a))
+            (js/setTimeout 
+             #(fetch-resources resources) 
+             ;; TODO review, this is necessary because of asynchronicity between citator backend and scraper              
+             15000)))))
+
+(defn resources-component [resources]
+  [:<>
+   [:hr]
+   [:h2 "Resources"]
+   [:ul 
+    (map (fn [{url  "url"
+               doi  "doi"
+               date "date"}]
+           [:li {:key doi}
+            date " "
+            [:a {:href (str "/resource/" doi)} doi] 
+            " "
+            [:a {:href url} url]]) 
+         @resources)]])
 
 ;; TODO implement active search, use r/let to make a fetch call
 (defn component []
@@ -44,7 +61,9 @@
         generated-handle (r/atom "")
         resources (r/atom '())]
     (fetch-resources resources)
+    (create-ws resources)
     (fn []
+      @resources
       [:<>
        [:h1 "Citator"]
        [:p "Insert a url here and submit"]
@@ -52,8 +71,4 @@
        [:input {:type :button
                 :on-click #(archive-url! @url generated-handle resources)
                 :value "submit"}]
-       (when-not (= "" @generated-handle)
-         [:p "Generated handle: "
-          [:a {:href (str "/resource/" @generated-handle)}
-           @generated-handle]])
        [resources-component resources]])))

@@ -4,6 +4,7 @@
 .clj-kondo
 .lsp
 .calva
-archive/*.png
+archive/*
+!archive/.keep
 citator-data
 doi-registrar-data

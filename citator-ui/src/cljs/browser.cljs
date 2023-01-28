@@ -8,7 +8,7 @@
 
 (defonce root (createRoot (gdom/getElement "app")))
 
-(defn- main-component [path]
+(defn- main-component [path] 
   (case path
     "/"
     [home/component]

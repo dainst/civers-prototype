@@ -23,6 +23,8 @@ See [documentation](./docs/README.md)
 
 See [technical documentation](./docs/README_TECHNICAL.md)
 
+TODO websockets, only one tab of 8020 should be open
+
 ## Clean up
 
     $ ./clean.sh (Mac and Linux; TODO write instructions for windows)

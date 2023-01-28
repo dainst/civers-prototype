@@ -1,5 +1,6 @@
 (ns api
-  (:require [xtdb.api :as xt]
+  (:require [ring.adapter.undertow.websocket :as ws]
+            [xtdb.api :as xt]
             datastore
             scraper))
 
@@ -37,6 +38,7 @@
               :resources (fetch-resources datastore/xtdb-node)}}))
 
 #_{:clj-kondo/ignore [:unresolved-var]}
-(defn get-resource-handler [req]
+(defn get-resource-handler
+  [req]
   (let [doi (:doi (:route-params req))]
     {:body (fetch-resource datastore/xtdb-node doi)}))
