@@ -17,5 +17,5 @@
 (defn submit-handler [req]
   (let [referrer (first (keys (:query-params req))) ;; TODO review
         path     (str "/widget?referrer=" (java.net.URLEncoder/encode referrer))]
-    (scraper/take-screenshot referrer)
+    (scraper/take-screenshot! referrer)
     (response/redirect path)))

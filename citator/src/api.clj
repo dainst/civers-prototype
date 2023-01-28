@@ -16,7 +16,7 @@
 
 #_{:clj-kondo/ignore [:unresolved-var]}
 (defn handler [{{url :url} :body}]
-  (let [doi (scraper/take-screenshot url)
+  (let [doi (scraper/take-screenshot! url)
         resources (xt/q (xt/db datastore/xtdb-node) 
                           '{:find  [e url]
                             :where [[e :user/name "citator"]
