@@ -1,4 +1,4 @@
-# data citation service prototype
+# Data Citation Service Prototype
 
 TODO add high level description
 See [documentation](./docs/README.md)
@@ -57,6 +57,8 @@ clj:user:> (mount/start)
 - mention docker system prune
 
 ## Notes
+
+TODO review what of these notes would be interesting to keep
 
 Run
 
