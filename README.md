@@ -21,6 +21,8 @@ one can visit in the browser:
 
 See [documentation](./docs/README.md)
 
+See [technical documentation](./docs/README_TECHNICAL.md)
+
 ## Clean up
 
     $ ./clean.sh (Mac and Linux; TODO write instructions for windows)
