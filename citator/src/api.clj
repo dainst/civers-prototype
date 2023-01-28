@@ -5,14 +5,16 @@
 
 #_{:clj-kondo/ignore [:unresolved-var]}
 (defn- fetch-resources []
-  (let [resources (xt/q
-                   (xt/db datastore/xtdb-node)
-                   '{:find  [e url]
-                     :where [[e :user/name "citator"]
-                             [e :url url]]})]
-    (map (fn [[doi url]] {:doi doi
-                          :url url}) resources)))
-
+  (let [resources (map first (xt/q
+                              (xt/db datastore/xtdb-node)
+                              '{:find     [(pull ?e [*]) date]
+                                :where    [[?e :date date]]
+                                :order-by [[date :desc]]
+                                }))]
+    
+    (map (fn [{date :date :as resource}]
+           (assoc resource :date (.format (java.text.SimpleDateFormat. "yyyy-MM-dd HH:mm") date)))
+         resources)))
 
 (defn get-handler [_]
   {:body {:resources (fetch-resources)}})

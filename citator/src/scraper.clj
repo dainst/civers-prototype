@@ -19,26 +19,34 @@
            {:doi doi
             :url (str "http://localhost:8020/resource/" doi)}))
 
-(defn- request-screenshot! [url doi]
+(defn- request-screenshot! [doi url]
   (prn "status from take screenshot"
        (:status
         (do-post "http://scraper:5000/api/take-screenshot" {:url url :target doi}))))
 
-#_{:clj-kondo/ignore [:unresolved-var]}
-(defn- save-resource! [url doi]
-  (xt/submit-tx datastore/xtdb-node 
+(defn- store [node resource id]
+  (xt/submit-tx node
                 [[::xt/put
-                  {:xt/id     doi
-                   ;; This is a hack to account for that we route traffic within the docker compose network
-                   :url       (str/replace url "widget-host:3000" "localhost:8022")
-                   :user/name "citator"}]])
-  (xt/sync datastore/xtdb-node))
+                  (assoc resource :xt/id id)]])
+  (xt/sync node))
+
+(defn- make-resource [doi url]
+  {;; This is a hack to account for that we route traffic within the docker compose network
+   :url       (str/replace url "widget-host:3000" "localhost:8022")
+   :doi       doi
+   :date      (java.util.Date.)})
+
+(defn- save-resource! [node doi url]
+  (store node
+         (make-resource doi url)
+         doi))
 
 (defn take-screenshot! [url]
   (let [doi (gen-doi)]
 
     (register-doi! doi)
-    (request-screenshot! url doi)
-    (save-resource! url doi)
+    (request-screenshot! doi url)
+    #_{:clj-kondo/ignore [:unresolved-var]}
+    (save-resource! datastore/xtdb-node doi url)
     
     doi))
