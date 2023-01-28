@@ -4,24 +4,21 @@
             scraper))
 
 #_{:clj-kondo/ignore [:unresolved-var]}
-(defn get-handler [_]
-  (let [resources (xt/q 
+(defn- fetch-resources []
+  (let [resources (xt/q
                    (xt/db datastore/xtdb-node)
                    '{:find  [e url]
                      :where [[e :user/name "citator"]
-                             [e :url url]]})
-        resources (map (fn [[doi url]] {:doi doi
-                                        :url url}) resources)]
-    {:body {:resources resources}}))
+                             [e :url url]]})]
+    (map (fn [[doi url]] {:doi doi
+                          :url url}) resources)))
+
+
+(defn get-handler [_]
+  {:body {:resources (fetch-resources)}})
 
 #_{:clj-kondo/ignore [:unresolved-var]}
 (defn handler [{{url :url} :body}]
-  (let [doi (scraper/take-screenshot! url)
-        resources (xt/q (xt/db datastore/xtdb-node) 
-                          '{:find  [e url]
-                            :where [[e :user/name "citator"]
-                                    [e :url url]]})
-          resources (map (fn [[doi url]] {:doi doi
-                                         :url url}) resources)]
+  (let [doi (scraper/take-screenshot! url)]
       {:body {:doi doi
-              :resources resources}}))
+              :resources (fetch-resources)}}))
