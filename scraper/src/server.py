@@ -4,7 +4,7 @@ import os
 
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument('--no-sandbox')
-chrome_options.add_argument('--window-size=1920,1080')
+chrome_options.add_argument('--window-size=1220,960')
 chrome_options.add_argument('--headless')
 chrome_options.add_argument('--disable-gpu')
 driver = webdriver.Chrome(chrome_options=chrome_options)
@@ -14,28 +14,24 @@ app = Flask(__name__)
 
 # url = 'https://arachne.dainst.org/entity/2003162?fl=20&q=*&resultIndex=1'
 
-@app.route('/api/take-screenshot', methods=['POST'])
+@app.route('/api/archive', methods=['POST'])
 def take_screenshot():
     url = request.json['url']
     target = request.json['target']
     driver.get(url)
     time.sleep(3)
     driver.save_screenshot('archive/' + target + '.png')
-    print(driver.title)
-    print(driver.current_url)
-    return jsonify(status="ok")
 
-@app.route('/api/archive-site', methods=['POST'])
-def archive_site():
-    url = request.json['url']
-    target = request.json['target']
-    driver.get(url)
-    time.sleep(3)
     content = driver.page_source
     os.mkdir("archive/" + target)
     f = open("archive/" + target + "/index.html", "w")
     f.write(content)
     f.close() 
+
+    print(driver.title)
+    print(driver.current_url)
+    return jsonify(status="ok")
+
     return jsonify(status="ok")
 
 

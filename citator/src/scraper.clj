@@ -6,10 +6,11 @@
             datastore))
 
 (defn- do-post [url json-body]
-  (:body (client/post url {:body         (cheshire/generate-string json-body)
-                           :as           :json
-                           :content-type :json
-                           :accept       :json})))
+  (:body (client/post url {:body             (cheshire/generate-string json-body)
+                           :as               :json
+                           :content-type     :json
+                           :accept           :json
+                           :throw-exceptions false})))
 
 (defn- gen-doi []
   (subs (.toString (java.util.UUID/randomUUID)) 0 8))
@@ -19,15 +20,10 @@
            {:doi doi
             :url (str "http://localhost:8020/resource/" doi)}))
 
-(defn- request-screenshot! [doi url]
+(defn- request-archival! [doi url]
   (prn "status from take screenshot"
        (:status
-        (do-post "http://scraper:5000/api/take-screenshot" {:url url :target doi}))))
-
-(defn- request-site-archival! [doi url]
-  (prn "status from archive site"
-       (:status
-        (do-post "http://scraper:5000/api/archive-site" {:url url :target doi}))))
+        (do-post "http://scraper:5000/api/archive" {:url url :target doi}))))
 
 (defn- store [node resource id]
   (xt/submit-tx node
@@ -46,12 +42,11 @@
          (make-resource doi url)
          doi))
 
-(defn take-screenshot! [url]
+(defn archive! [url]
   (let [doi (gen-doi)]
 
     (register-doi! doi)
-    (request-screenshot! doi url)
-    (request-site-archival! doi url)
+    (request-archival! doi url)
     #_{:clj-kondo/ignore [:unresolved-var]}
     (save-resource! datastore/xtdb-node doi url)
     

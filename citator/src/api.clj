@@ -31,11 +31,9 @@
   {:body {:resources (fetch-resources datastore/xtdb-node)}})
 
 #_{:clj-kondo/ignore [:unresolved-var]}
-(defn handler [{{url :url} :body}]
-  
-  (prn "trying to archive" url)
-
-  (let [doi (scraper/take-screenshot! url)]
+(defn handler [{{url :url} :body}] 
+  (prn "Archiving" url)
+  (let [doi (scraper/archive! url)]
       {:body {:doi doi
               :resources (fetch-resources datastore/xtdb-node)}}))
 

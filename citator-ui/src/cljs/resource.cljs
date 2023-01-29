@@ -16,7 +16,8 @@
     (fn [_path]
       [:<> [:h1 "Citator"]
        [:h2 "Detail view: " path]
-       [:a {:href (str "/archive/" path ".png")}
+       [:a {:href (str "/archive/" path ".png")
+            :target "_blank"}
         [:img {:src    (str "/archive/" path ".png")
                :height "400px"
                :width  :auto}]]
@@ -30,7 +31,8 @@
           [:td (get @resource "date")]]
          [:tr
           [:td [:b "Archived Site"]]
-          [:td [:a {:href (str "/archive/" path "/index.html")} (str "/archive/" path)]]]
+          [:td [:a {:href (str "/archive/" path "/index.html")
+                    :target "_blank"} (str "/archive/" path)]]]
          [:tr
           [:td [:b "Original URL"]]
           [:td [:a {:href (get @resource "url")

@@ -26,13 +26,15 @@
     :on-message (fn [{:keys [channel data]}]
                   (prn "on-message" data)
                   (ws/send data channel))
-    :on-close   (fn [{:keys [_channel _ws-channel]}] (println "WS closed!"))}})
+    :on-close   (fn [{:keys [_channel _ws-channel]}]
+                  (reset! ch nil)
+                  (println "WS closed!"))}})
 
 (defn wrap-send-ws [handler]
   (fn [req]
     (if @ch
       (ws/send "" @ch)
-      (prn "websocket not (yet) open"))
+      (prn "websocket not open"))
     (handler req)))
 
 (defroutes routes

@@ -56,7 +56,8 @@
                 date "date"}]
             [:tr {:key doi}
              [:td date]
-             [:td [:a {:href (str "/resource/" doi)} doi]] 
+             [:td [:a {:href (str "/resource/" doi)
+                       :target "_blank"} doi]] 
              [:td [:a {:href url
                        :target "_blank"} url]]]) 
           @resources)]]])
