@@ -2,27 +2,6 @@
 
 TODO maybe put some screenshots here
 
-## Services description
-
-From the perspective of a user, we deal with three services
-
-### DOI Registrar
-
-TODO explain
-
-### Citator
-
-TODO explain
-
-### Widget Host
-
-TODO explain
-
-Any site which embeds the widget, which let's one archive the site (itself)
-without visiting Citator.
-
-Here we have an exemplary site, a service called Widget Host.
-
 ## Use cases
 
 TODO flesh out
