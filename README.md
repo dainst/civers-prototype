@@ -1,5 +1,5 @@
 # Data Citation Service Prototype
-
+ 
 A system designed to take snapshots of websites and
 generate [DOI](https://en.wikipedia.org/wiki/Digital_object_identifier)s,
 aimed at providing permanently citable web resources, which are otherwise
