@@ -45,7 +45,7 @@
       (handler req))))
 
 (def app
-  (-> routes
+  (-> #'routes
       wrap-ws
       reload/wrap-reload
       (wrap-resource "public")))
