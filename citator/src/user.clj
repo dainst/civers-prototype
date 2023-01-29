@@ -2,7 +2,7 @@
   (:require [mount.core :as mount]
             [xtdb.api :as xt]
             server
-            datastore))
+            [service.datastore :as datastore]))
 
 (defn start []
   (mount/start))

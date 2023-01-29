@@ -1,4 +1,4 @@
-(ns http
+(ns service.http
   (:require [clj-http.client :as client]
             [cheshire.core :as cheshire]))
 

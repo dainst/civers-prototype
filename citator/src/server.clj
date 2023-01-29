@@ -8,8 +8,8 @@
             [ring.middleware.reload :as reload]
             [ring.middleware.params :refer [wrap-params]]
             [mount.core :as mount]
-            api
-            widget))
+            [api.resources :as resources]
+            [api.widget :as widget]))
 
 (defonce chan (atom nil))
 
@@ -38,9 +38,9 @@
     (handler req)))
 
 (defroutes routes
-  (GET "/api" [] (wrap-api api/get-handler))
-  (GET "/api/resource/:doi" [] (wrap-api api/get-resource-handler))
-  (POST "/api" [] (wrap-api api/handler))
+  (GET "/api" [] (wrap-api resources/get-handler))
+  (GET "/api/resource/:doi" [] (wrap-api resources/get-resource-handler))
+  (POST "/api" [] (wrap-api resources/submit-handler))
   (GET "/resource/:id" [] (response/resource-response "public/index.html"))
   (GET "/" [] (response/resource-response "public/index.html"))
   (GET "/widget" [] (wrap-params widget/get-form))

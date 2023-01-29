@@ -1,8 +1,8 @@
-(ns scraper
+(ns api.scraping
   (:require [clojure.string :as str]
-            doi
-            http
-            datastore))
+            [service.doi :as doi]
+            [service.http :as http]
+            [service.datastore :as datastore]))
 
 (def ^:private doi-registrar-api-url "http://doi-registrar:3000/api")
 
@@ -28,12 +28,10 @@
 
 (defn- make-resource [doi url]
   {:url       (rewrite-url url)
-   :doi       doi
-   :date      (java.util.Date.)})
+   :doi       doi})
 
-(defn- save-resource! [node doi url]
-  (datastore/create node
-                    (make-resource doi url)
+(defn- save-resource! [doi url]
+  (datastore/create (make-resource doi url)
                     doi))
 
 (defn archive! [url]
@@ -41,7 +39,6 @@
 
     (register-doi! doi)
     (request-archival! doi url)
-    #_{:clj-kondo/ignore [:unresolved-var]}
-    (save-resource! datastore/xtdb-node doi url)
+    (save-resource! doi url)
     
     doi))

@@ -1,6 +1,6 @@
-(ns widget
+(ns api.widget
   (:require [ring.util.response :as response]
-            scraper))
+            [api.scraping :as scraping]))
 
 (defn get-form [req]
   (let [referrer (get (:query-params req) "referrer")]
@@ -18,5 +18,5 @@
 (defn submit-handler [req]
   (let [referrer (first (keys (:query-params req)))
         path     (str "/widget?referrer=" (java.net.URLEncoder/encode referrer))]
-    (scraper/archive! referrer)
+    (scraping/archive! referrer)
     (response/redirect path)))
