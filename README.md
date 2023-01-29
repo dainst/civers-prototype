@@ -44,7 +44,7 @@ if *Widget Host* does not show the widget yet. Make sure everything is fine befo
 
 The two primary use cases are documented [here](./docs/README.md).
 
-See [technical documentation](./docs/README_TECHNICAL.md)
+See also [technical documentation](./docs/README_TECHNICAL.md).
 
 TODO websockets, only one tab of `8020` should be open
 
