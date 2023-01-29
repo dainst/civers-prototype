@@ -42,11 +42,12 @@ The two primary use cases are documented [here](./docs/README.md).
 
 See [technical documentation](./docs/README_TECHNICAL.md)
 
-TODO websockets, only one tab of 8020 should be open
+TODO websockets, only one tab of `8020` should be open
 
 ### Clean up
 
-How to remove existing data from the test system.
+To start the test system from scratch again, 
+one simply removes some files and folders.
 
 #### Mac and Linux
 
@@ -64,10 +65,8 @@ TODO verify if you need some special permissions here.
 
 ## Development notes
 
-    Visit http://localhost:8020
-    Check site renders. Check console (msg: hi).
-
-This gives you hot code reload for frontend and backend. TODO review
+The *Citator* (port `8020`) and the *DOI Registrar* (port `8021`) 
+provide hot code reload via `shadow-cljs`.
 
 ### Working with the REPL
 
@@ -81,28 +80,3 @@ then do
 clj:user:> (start)
 {:started ["#'resources/resources" "#'server/http-server"]}
 ```
-
-### Rebuilding containers
-
-- TODO describe when necessary
-- mention docker system prune
-
-## Notes
-
-TODO review what of these notes would be interesting to keep
-
-Run
-
-    $ docker-compose -f docker-compose.yaml run --service-ports --entrypoint "/bin/bash" citator
-
-Inside both of the containers
-
-    /usr/local/app# clj -M -m server
-
-They expose ports 3005 and 3006 respectively.
-
-Rebuild the container after a change of a deps.edn
-
-    $ docker-compose -f docker-compose.yaml build data-citation-service
-
-curl -XPOST -d '{"msg":"hi"}' -H 'Content-Type: application/json' http://172.17.0.1:3005/api
