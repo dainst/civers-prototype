@@ -1,6 +1,5 @@
 (ns api
-  (:require [ring.adapter.undertow.websocket :as ws]
-            [xtdb.api :as xt]
+  (:require [xtdb.api :as xt]
             datastore
             scraper))
 
