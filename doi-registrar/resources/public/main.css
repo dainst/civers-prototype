@@ -1,0 +1,22 @@
+body {
+    margin: 0;
+    background-color: wheat;
+}
+
+#app { 
+    width: 1200px;
+    margin: auto;
+}
+
+table {
+    position: relative;
+    left: -10px;
+}
+
+th, td {
+    padding: 10px;
+}
+
+th {
+    text-align: left;
+}

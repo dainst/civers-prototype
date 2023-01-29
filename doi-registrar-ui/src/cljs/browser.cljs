@@ -20,11 +20,17 @@
     [:<>
      [:hr]
      [:h2 "Resources"]
-     [:ul
-      (map (fn [{url "url" doi "doi"}]
-             [:li {:key doi}
-              (str doi " ")
-              [:a {:href url} url]]) @resources)]]))
+     [:table
+      [:thead
+       [:tr 
+        [:th "DOI"] 
+        [:th "URL"]]]
+      [:tbody
+       (map (fn [{url "url" doi "doi"}]
+              [:tr {:key doi}
+               [:td (str doi " ")]
+               [:td [:a {:href   url
+                         :target "_blank"} url]]]) @resources)]]]))
 
 (defn simple-component []
   (let [resources (r/atom '())]
