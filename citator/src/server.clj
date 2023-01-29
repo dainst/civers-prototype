@@ -11,7 +11,7 @@
             api
             widget))
 
-(def ch (atom nil))
+(defonce chan (atom nil))
 
 (defn- wrap-api [handler]
   (-> handler
@@ -21,19 +21,19 @@
 (defn ws-handler [_request]
   {:undertow/websocket
    {:on-open (fn [{:keys [channel]}]
-               (reset! ch channel)
+               (reset! chan channel)
                (println "WS open!" channel))
     :on-message (fn [{:keys [channel data]}]
                   (prn "on-message" data)
                   (ws/send data channel))
     :on-close   (fn [{:keys [_channel _ws-channel]}]
-                  (reset! ch nil)
+                  (reset! chan nil)
                   (println "WS closed!"))}})
 
 (defn wrap-send-ws [handler]
   (fn [req]
-    (if @ch
-      (ws/send "" @ch)
+    (if @chan
+      (ws/send "" @chan)
       (prn "websocket not open"))
     (handler req)))
 

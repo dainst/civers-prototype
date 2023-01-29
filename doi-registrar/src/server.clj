@@ -9,7 +9,7 @@
             [mount.core :as mount]
             api))
 
-(def ch (atom nil))
+(defonce chan (atom nil))
 
 (defn wrap-api [handler]
   (-> handler
@@ -18,7 +18,9 @@
 
 (defn wrap-send-ws [handler]
   (fn [req]
-    (ws/send "" @ch)
+    (if @chan
+      (ws/send "" @chan)
+      (prn "websocket not open"))
     (handler req)))
 
 (defroutes routes
@@ -31,7 +33,7 @@
 (defn ws-handler [_request]
   {:undertow/websocket
    {:on-open (fn [{:keys [channel]}]
-               (reset! ch channel)
+               (reset! chan channel)
                (println "WS open!" channel))
     :on-message (fn [{:keys [channel data]}]
                   (prn "on-message" data)
