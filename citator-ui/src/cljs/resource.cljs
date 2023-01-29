@@ -14,12 +14,23 @@
   (let [resource (r/atom nil)]
     (fetch-resource resource path)
     (fn [_path]
-      [:<> [:h1 path]
-       [:br]
-       (get @resource "date")
-       [:br]
-       [:a {:href (get @resource "url")} (get @resource "url")]
-       [:br]
-       [:a {:href (str "/archive/" path ".png")} "screenshot"]
-       [:br]
-       [:a {:href (str "/archive/" path "/index.html")} "archived-site"]])))
+      [:<> [:h1 "Citator"]
+       [:h2 "Detail view: " path]
+       [:a {:href (str "/archive/" path ".png")}
+        [:img {:src    (str "/archive/" path ".png")
+               :height "400px"
+               :width  :auto}]]
+       [:table
+        [:tr
+         [:td [:b "DOI"]]
+         [:td (get @resource "doi")]]
+        [:tr
+         [:td [:b "Archival date"]]
+         [:td (get @resource "date")]]
+        [:tr
+         [:td [:b "Archived Site"]]
+         [:td [:a {:href (str "/archive/" path "/index.html")} (str "/archive/" path)]]]
+        [:tr
+         [:td [:b "Original URL"]]
+         [:td [:a {:href (get @resource "url")
+                   :target "_blank"} (get @resource "url")]]]]])))

@@ -9,10 +9,11 @@
 (defonce root (createRoot (gdom/getElement "app")))
 
 (defn- main-component [path] 
-  (case path
-    "/"
-    [home/component]
-    [resource/component path]))
+  [:div#main
+   (case path
+     "/"
+     [home/component]
+     [resource/component path])])
 
 (defn- get-path []
   (str/replace (-> js/window .-location .-pathname) "/resource/" ""))

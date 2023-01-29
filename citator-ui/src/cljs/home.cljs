@@ -44,15 +44,19 @@
   [:<>
    [:hr]
    [:h2 "Resources"]
-   [:ul 
+   [:table 
+    [:tr 
+     [:th "Date"]
+     [:th "DOI"]
+     [:th "URL"]]
     (map (fn [{url  "url"
                doi  "doi"
                date "date"}]
-           [:li {:key doi}
-            date " "
-            [:a {:href (str "/resource/" doi)} doi] 
-            " "
-            [:a {:href url} url]]) 
+           [:tr {:key doi}
+            [:td date]
+            [:td [:a {:href (str "/resource/" doi)} doi]] 
+            [:td [:a {:href url
+                      :target "_blank"} url]]]) 
          @resources)]])
 
 ;; TODO implement active search, use r/let to make a fetch call
