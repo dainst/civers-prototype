@@ -38,6 +38,10 @@ one can visit in the browser:
 - http://localhost:8021 # The DOI Registrar
 - http://localhost:8022 # The Widget Host
 
+If you encounter a red message bar at the bottom of the screen which 
+informs about stale a stale build or websockets not connected, in either *Citator* or *DOI Registrar*, wait a few seconds and refrsh the page. Also wait a few seconds and refresh
+if *Widget Host* does not show the widget yet. Make sure everything is fine before you proceed.
+
 The two primary use cases are documented [here](./docs/README.md).
 
 See [technical documentation](./docs/README_TECHNICAL.md)
