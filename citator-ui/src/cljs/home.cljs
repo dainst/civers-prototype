@@ -73,7 +73,7 @@
       @resources
       [:<>
        [:h1 "Citator"]
-       [:p "Insert a url here and submit"]
+       [:p "Insert the URL of a site you want to archive here and click submit."]
        [atom-input url]
        [:input {:type     :button
                 :on-click #(archive-url! @url generated-handle resources)

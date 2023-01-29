@@ -39,5 +39,4 @@
   (let [resources 
         #_{:clj-kondo/ignore [:unresolved-var]}
         (fetch-resources datastore/xtdb-node)]
-    (prn "resources" resources)
     {:body {:resources resources}}))

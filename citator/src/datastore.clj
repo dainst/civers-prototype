@@ -16,6 +16,12 @@
 (defn stop-xtdb! [xtdb-node]
   (.close xtdb-node))
 
+(defn create [node resource id]
+  (xt/submit-tx node
+                [[::xt/put
+                  (assoc resource :xt/id id)]])
+  (xt/sync node))
+
 #_{:clj-kondo/ignore [:unresolved-symbol]}
 (mount/defstate xtdb-node
   :start (do
