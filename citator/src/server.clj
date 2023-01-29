@@ -29,8 +29,10 @@
     :on-close   (fn [{:keys [_channel _ws-channel]}] (println "WS closed!"))}})
 
 (defn wrap-send-ws [handler]
-  (fn [req] 
-    (ws/send "" @ch)
+  (fn [req]
+    (if @ch
+      (ws/send "" @ch)
+      (prn "websocket not (yet) open"))
     (handler req)))
 
 (defroutes routes

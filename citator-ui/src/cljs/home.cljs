@@ -3,9 +3,9 @@
             [ajax.core :refer [GET POST]]))
 
 (defn atom-input [value]
-  [:input {:type "text"
-           :value @value
-           :on-change #(reset! value (-> % .-target .-value))}])
+  [:input.text {:type      "text"
+                :value     @value
+                :on-change #(reset! value (-> % .-target .-value))}])
 
 (defn archive-url! [url generated-handle resources]
   (POST "/api" {:body (.stringify js/JSON (clj->js {:url url}))
@@ -61,7 +61,7 @@
                        :target "_blank"} url]]]) 
           @resources)]]])
 
-;; TODO implement active search, use r/let to make a fetch call
+;; TODO use r/let to make a fetch call
 (defn component []
   (let [url (r/atom "")
         generated-handle (r/atom "")
@@ -74,7 +74,7 @@
        [:h1 "Citator"]
        [:p "Insert a url here and submit"]
        [atom-input url]
-       [:input {:type :button
+       [:input {:type     :button
                 :on-click #(archive-url! @url generated-handle resources)
-                :value "submit"}]
+                :value    "submit"}]
        [resources-component resources]])))

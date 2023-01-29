@@ -21,16 +21,17 @@
                :height "400px"
                :width  :auto}]]
        [:table
-        [:tr
-         [:td [:b "DOI"]]
-         [:td (get @resource "doi")]]
-        [:tr
-         [:td [:b "Archival date"]]
-         [:td (get @resource "date")]]
-        [:tr
-         [:td [:b "Archived Site"]]
-         [:td [:a {:href (str "/archive/" path "/index.html")} (str "/archive/" path)]]]
-        [:tr
-         [:td [:b "Original URL"]]
-         [:td [:a {:href (get @resource "url")
-                   :target "_blank"} (get @resource "url")]]]]])))
+        [:tbody
+         [:tr
+          [:td [:b "DOI"]]
+          [:td (get @resource "doi")]]
+         [:tr
+          [:td [:b "Archival date"]]
+          [:td (get @resource "date")]]
+         [:tr
+          [:td [:b "Archived Site"]]
+          [:td [:a {:href (str "/archive/" path "/index.html")} (str "/archive/" path)]]]
+         [:tr
+          [:td [:b "Original URL"]]
+          [:td [:a {:href (get @resource "url")
+                    :target "_blank"} (get @resource "url")]]]]]])))

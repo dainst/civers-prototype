@@ -28,8 +28,8 @@
 
     (map #(update % :date format-date) resources)))
 
-(defn handler [{{doi :doi
-                 url :url} :body}]
+(defn submit-handler [{{doi :doi
+                        url :url} :body}]
   (prn [:insert :doi doi :url url])
   #_{:clj-kondo/ignore [:unresolved-var]}
   (register-resource! datastore/xtdb-node doi url)
