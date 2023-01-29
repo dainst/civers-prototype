@@ -57,8 +57,10 @@ Execute the following script:
 
 #### Windows
 
-shut down `docker-compose` (if it runs) and
-delete all files under `archive`, except `.keep`. Delete the directories `citator-data`
+Shut down `docker-compose` (if it runs) and
+delete all files under `archive`, except `.keep`. 
+
+Delete the directories `citator-data`
 and `doi-registrar-data`.
 
 TODO verify if you need some special permissions here.
