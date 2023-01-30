@@ -3,18 +3,20 @@
             [home.resources :as resources]
             api))
 
+(defn on-message [*resources]
+  (fn [_a]
+    #_(prn ".." (.-data a))
+    (js/setTimeout
+     #(api/fetch-resources *resources)
+     ;; TODO review, this is necessary because of asynchronicity between citator backend and scraper              
+     15000)))
+
 (defn- create-ws [*resources]
   (let [ws  (js/WebSocket. "ws://localhost:3005/ws")]
     (set! (.-onopen ws) #(prn "onopen" (js/console.log %)))
     (set! (.-onerror ws) #(prn "onerror" (js/console.log %)))
     (set! (.-onclose ws) #(prn "onclose" (js/console.log %)))
-    (set! (.-onmessage ws)
-          (fn [_a]
-            #_(prn ".." (.-data a))
-            (js/setTimeout 
-             #(api/fetch-resources *resources) 
-             ;; TODO review, this is necessary because of asynchronicity between citator backend and scraper              
-             15000)))))
+    (set! (.-onmessage ws) (on-message *resources))))
 
 (defn- atom-input [value]
   [:input.text {:type      "text"
@@ -26,6 +28,12 @@
            :on-click on-click-fn
            :value    "submit"}])
 
+(defn- main-component [*url *resources reset-url!]
+  [:<> [:h1 "Citator"]
+   [:p "Insert the URL of a site you want to archive here and click submit."]
+   [atom-input *url]
+   [button #(api/archive-url! @*url *resources reset-url!)]])
+
 ;; TODO use r/let to make a fetch call
 (defn component []
   (let [*url       (r/atom "")
@@ -35,9 +43,6 @@
     (create-ws *resources)
     (fn []
       [:<>
-       [:h1 "Citator"]
-       [:p "Insert the URL of a site you want to archive here and click submit."]
-       [atom-input *url]
-       [button #(api/archive-url! @*url *resources reset-url!)]
+       [main-component *url *resources reset-url!]
        (when (seq @*resources)
          [resources/component @*resources])])))
