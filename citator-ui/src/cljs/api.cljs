@@ -1,6 +1,10 @@
 (ns api
   (:require [ajax.core :refer [GET POST]]))
 
+(defn- stringify-map [m]
+  ;; TODO is this clj->js even necessary?
+  (.stringify js/JSON (clj->js m)))
+
 (defn- make-call 
   ([method url handler] (make-call method url nil handler))
   ([method url body handler]
@@ -22,7 +26,7 @@
    ;; TODO improve on post and get /api, perhaps by having different endpoints
    (make-call POST 
               "/api/resource" 
-              (.stringify js/JSON (clj->js {:url url}))
+              (stringify-map {:url url})
               ;; TODO verify everything is fine, by checking for status ok in return body
               #(fetch-resources *resources f))))
 
