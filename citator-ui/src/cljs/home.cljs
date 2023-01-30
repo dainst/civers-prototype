@@ -16,10 +16,15 @@
              ;; TODO review, this is necessary because of asynchronicity between citator backend and scraper              
              15000)))))
 
-(defn atom-input [value]
+(defn- atom-input [value]
   [:input.text {:type      "text"
                 :value     @value
                 :on-change #(reset! value (-> % .-target .-value))}])
+
+(defn- button [on-click-fn]
+  [:input {:type     :button
+           :on-click on-click-fn
+           :value    "submit"}])
 
 ;; TODO use r/let to make a fetch call
 (defn component []
@@ -33,8 +38,6 @@
        [:h1 "Citator"]
        [:p "Insert the URL of a site you want to archive here and click submit."]
        [atom-input *url]
-       [:input {:type     :button
-                :on-click #(api/archive-url! @*url *resources reset-url!)
-                :value    "submit"}]
+       [button #(api/archive-url! @*url *resources reset-url!)]
        (when (seq @*resources)
          [resources/component @*resources])])))
