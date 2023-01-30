@@ -3,6 +3,8 @@
             [compojure.core :refer [defroutes GET]]
             [ring.middleware.resource :refer [wrap-resource]]))
 
+;; TODO use cljstache?
+
 (defn- get-form 
   [title]
   (fn

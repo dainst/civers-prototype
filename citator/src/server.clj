@@ -2,7 +2,7 @@
   (:require [ring.adapter.undertow :refer [run-undertow]]
             [ring.adapter.undertow.websocket :as ws]
             [ring.util.response :as response]
-            [compojure.core :refer [defroutes GET POST]]
+            [compojure.core :refer [defroutes GET POST context]]
             [ring.middleware.json :as json]
             [ring.middleware.resource :refer [wrap-resource]]
             [ring.middleware.reload :as reload]
@@ -38,15 +38,14 @@
     (handler req)))
 
 (defroutes routes
-  (GET "/api" [] (wrap-api resources/get-handler))
-  (GET "/api/resource/:doi" [] (wrap-api resources/get-resource-handler))
-  (POST "/api" [] (wrap-api resources/submit-handler))
-  (GET "/resource/:id" [] (response/resource-response "public/index.html"))
-  (GET "/" [] (response/resource-response "public/index.html"))
+  (context "/api" []
+    (GET "/resources" [] (wrap-api resources/get-handler))
+    (GET "/resource/:doi" [] (wrap-api resources/get-resource-handler))
+    (POST "/resource" [] (wrap-api resources/submit-handler)))
   (GET "/widget" [] (wrap-params widget/get-form))
-  (GET "/submit" [] (-> widget/submit-handler
-                        wrap-send-ws
-                        wrap-params)))
+  (GET "/widget/request-archival" [] (-> widget/submit-handler wrap-send-ws wrap-params))
+  (GET "/resource/:id" [] (response/resource-response "public/index.html"))
+  (GET "/" [] (response/resource-response "public/index.html")))
 
 (defn wrap-ws [handler]
   (fn [req]
