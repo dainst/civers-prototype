@@ -1,4 +1,4 @@
-# Civers Prototype
+# CiVers Prototype
  
 A system designed to take snapshots of websites and
 generate [DOI](https://en.wikipedia.org/wiki/Digital_object_identifier)s,
