@@ -20,4 +20,4 @@
                        :target "_blank"} doi]]
              [:td [:a {:href url
                        :target "_blank"} url]]])
-          @resources)]]])
+          resources)]]])
