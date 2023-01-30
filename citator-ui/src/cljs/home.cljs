@@ -4,12 +4,7 @@
             api))
 
 (defn on-message [*resources]
-  (fn [_a]
-    #_(prn ".." (.-data a))
-    (js/setTimeout
-     #(api/fetch-resources *resources)
-     ;; TODO review, this is necessary because of asynchronicity between citator backend and scraper              
-     15000)))
+  #(api/fetch-resources *resources))
 
 (defn- create-ws [*resources]
   (let [ws  (js/WebSocket. "ws://localhost:3005/ws")]

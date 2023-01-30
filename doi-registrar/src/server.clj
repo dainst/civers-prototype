@@ -11,17 +11,23 @@
 
 (defonce chan (atom nil))
 
-(defn wrap-api [handler]
+(defn- wrap-api [handler]
   (-> handler
       json/wrap-json-response
       (json/wrap-json-body {:keywords? true})))
 
-(defn wrap-send-ws [handler]
+(defn- notify-listeners []
+  (if @chan
+    (do
+      (prn "send data to listeners now")
+      (ws/send "" @chan))
+    (prn "websocket not open")))
+
+(defn- wrap-send-ws [handler]
   (fn [req]
-    (if @chan
-      (ws/send "" @chan)
-      (prn "websocket not open"))
-    (handler req)))
+    (let [response (handler req)]
+      (notify-listeners)
+      response)))
 
 (defroutes routes
   (GET "/api" [] (wrap-api api/get-handler))
@@ -30,7 +36,7 @@
                       wrap-api))
   (GET "/" [] (response/resource-response "public/index.html")))
 
-(defn ws-handler [_request]
+(defn- ws-handler [_request]
   {:undertow/websocket
    {:on-open (fn [{:keys [channel]}]
                (reset! chan channel)
@@ -40,7 +46,7 @@
                   (ws/send data channel))
     :on-close   (fn [{:keys [_channel _ws-channel]}] (println "WS closed!"))}})
 
-(defn wrap-ws [handler]
+(defn- wrap-ws [handler]
   (fn [req]
     (if (= "/ws" (:uri req))
       (ws-handler req)

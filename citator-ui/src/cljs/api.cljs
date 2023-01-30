@@ -13,6 +13,7 @@
                 :body          body
                 :error-handler #(prn "Error response:" %)})))
 
+;; TODO maybe this should be more abstract and not touch the *resources directly?
 (defn fetch-resources 
   ([*resources] (fetch-resources *resources nil))
   ([*resources f]
