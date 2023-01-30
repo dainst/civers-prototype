@@ -3,19 +3,11 @@
             [home.resources :as resources]
             api))
 
-(defn atom-input [value]
-  [:input.text {:type      "text"
-                :value     @value
-                :on-change #(reset! value (-> % .-target .-value))}])
-
 (defn- create-ws [*resources]
   (let [ws  (js/WebSocket. "ws://localhost:3005/ws")]
-    (set! (.-onopen ws)
-          (fn [a] (prn "onopen" (js/console.log a))))
-    (set! (.-onerror ws)
-          (fn [a] (prn "onerror" (js/console.log a))))
-    (set! (.-onclose ws)
-          (fn [a] (prn "onclose" (js/console.log a))))
+    (set! (.-onopen ws) #(prn "onopen" (js/console.log %)))
+    (set! (.-onerror ws) #(prn "onerror" (js/console.log %)))
+    (set! (.-onclose ws) #(prn "onclose" (js/console.log %)))
     (set! (.-onmessage ws)
           (fn [_a]
             #_(prn ".." (.-data a))
@@ -23,6 +15,11 @@
              #(api/fetch-resources *resources) 
              ;; TODO review, this is necessary because of asynchronicity between citator backend and scraper              
              15000)))))
+
+(defn atom-input [value]
+  [:input.text {:type      "text"
+                :value     @value
+                :on-change #(reset! value (-> % .-target .-value))}])
 
 ;; TODO use r/let to make a fetch call
 (defn component []
