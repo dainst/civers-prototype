@@ -1,6 +1,7 @@
 (ns home
   (:require [reagent.core :as r]
-            [ajax.core :refer [GET POST]]))
+            [ajax.core :refer [GET POST]]
+            [home.resources :as resources]))
 
 (defn atom-input [value]
   [:input.text {:type      "text"
@@ -40,28 +41,6 @@
              ;; TODO review, this is necessary because of asynchronicity between citator backend and scraper              
              15000)))))
 
-(defn resources-component [resources]
-  [:<>
-   [:hr]
-   [:h2 "Resources"]
-   [:table 
-    [:thead
-     [:tr 
-      [:th "Date"]
-      [:th "DOI"]
-      [:th "URL"]]]
-    [:tbody
-     (map (fn [{url  "url"
-                doi  "doi"
-                date "date"}]
-            [:tr {:key doi}
-             [:td date]
-             [:td [:a {:href (str "/resource/" doi)
-                       :target "_blank"} doi]] 
-             [:td [:a {:href url
-                       :target "_blank"} url]]]) 
-          @resources)]]])
-
 ;; TODO use r/let to make a fetch call
 (defn component []
   (let [url (r/atom "")
@@ -70,7 +49,6 @@
     (fetch-resources resources)
     (create-ws resources)
     (fn []
-      @resources
       [:<>
        [:h1 "Citator"]
        [:p "Insert the URL of a site you want to archive here and click submit."]
@@ -78,4 +56,4 @@
        [:input {:type     :button
                 :on-click #(archive-url! @url generated-handle resources)
                 :value    "submit"}]
-       [resources-component resources]])))
+       [resources/component resources]])))
