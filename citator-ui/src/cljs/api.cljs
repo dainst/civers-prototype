@@ -22,8 +22,8 @@
    ;; TODO improve on post and get /api, perhaps by having different endpoints
    (make-call POST 
               "/api/resource" 
-              ;; TODO verify everything is fine
               (.stringify js/JSON (clj->js {:url url}))
+              ;; TODO verify everything is fine, by checking for status ok in return body
               #(fetch-resources *resources f))))
 
 ;; TODO use make-call
