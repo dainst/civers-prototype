@@ -39,4 +39,5 @@
        [:input {:type     :button
                 :on-click #(api/archive-url! @*url *resources reset-url!)
                 :value    "submit"}]
-       [resources/component @*resources]])))
+       (when (seq @*resources)
+         [resources/component @*resources])])))
