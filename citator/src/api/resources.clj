@@ -9,8 +9,8 @@
 #_{:clj-kondo/ignore [:unresolved-var]}
 (defn submit-handler [{{url :url} :body}]
   (let [doi (scraping/archive! url)]
-    {:body {:doi doi
-            :resources (datastore/get-all)}}))
+    {:body {:status :ok
+            :doi    doi}}))
 
 (defn get-resource-handler
   [req]
