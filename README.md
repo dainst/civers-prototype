@@ -25,7 +25,7 @@ In the context of the prototype the **Widget Host** represents an exemplary exte
 - `Docker`
 - `docker-compose`
 
-Under Mac and Windows this means just installing `Docker Desktop` which includes both.
+Under Mac and Windows this means just installing `Docker Desktop`, which includes both.
 
 When running under Windows it is also recommended to make use of `GitBash`.
 
