@@ -93,15 +93,18 @@ provide hot code reload via `shadow-cljs`.
 Also, hot code reload is provided for the backend code. The reload happens
 on each http request against one of the routes configured in `defroutes`.
 
-### Python code development
+### Python development
 
-The code can be developed outside the docker container in the local environment.
+The **webscraping** code is written in Python. 
+The code can be developed outside the docker container, in the local environment.
 
 Apart from `python3` and `pip3`, you will need to install `selenium`:
 
-pip3 install selenium==3.8.0
+```bash
+$ pip3 install selenium==3.8.0
+```
 
-To scrape a website, run this from the root directory of the project:
+To scrape a website run this script from the root directory of the project:
 
 ```bash
 civers-prototype$ python3 scraper/scrape.py <some-url> <target-name>
