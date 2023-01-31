@@ -22,10 +22,14 @@ In the context of the prototype the **Widget Host** represents an exemplary exte
 
 ## Prerequisites 
 
-- Docker
-- docker-compose
+- `Docker`
+- `docker-compose`
 
-Setup tested under `Ubuntu`. 
+Under Mac and Windows this means just installing `Docker Desktop` which includes both.
+
+When running under Windows it is also recommended to make use of `GitBash`.
+
+Setup tested under `Ubuntu` Linux, Mac, Windows (Docker Desktop with WSL-2). 
 The user interfaces are tested with `Chromium`, `Chrome` and `Firefox`.
 
 ## Getting started
