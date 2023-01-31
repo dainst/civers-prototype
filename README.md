@@ -93,6 +93,22 @@ provide hot code reload via `shadow-cljs`.
 Also, hot code reload is provided for the backend code. The reload happens
 on each http request against one of the routes configured in `defroutes`.
 
+### Python code development
+
+The code can be developed outside the docker container in the local environment.
+
+Apart from `python3` and `pip3`, you will need to install `selenium`:
+
+pip3 install selenium==3.8.0
+
+To scrape a website, run this from the root directory of the project:
+
+```bash
+civers-prototype$ python3 scraper/scrape.py <some-url> <target-name>
+```
+
+The target name will be used to name the generated artifacts in the `archive` folder.
+
 ### Working with the REPL
 
 - Uncomment one and comment the other entrypoint in docker-compose.yml, for a given service
