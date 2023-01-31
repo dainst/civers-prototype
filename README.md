@@ -29,7 +29,7 @@ Under Mac and Windows this means just installing `Docker Desktop`, which include
 
 When running under Windows it is also recommended to make use of `GitBash`.
 
-Setup tested under `Ubuntu` Linux, Mac, Windows (Docker Desktop with WSL-2). 
+Setup tested under **Ubuntu** Linux, **Mac**, **Windows** (Docker Desktop with WSL-2). 
 The user interfaces are tested with `Chromium`, `Chrome` and `Firefox`.
 
 ## Getting started
