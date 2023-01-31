@@ -53,7 +53,7 @@ The *DOI Registrar* has an API, the *Citator* has one API to request archival of
 which provides the *Widget*. Finally the **Scraper** itself provides an API which makes the scraping code directly accessible
 (omitting DOI generation).
 
-Consult the [technical documentation](./docs/README_TECHNICAL.md) for an architectural overview.
+For an architectural overview consult the [technical documentation](./docs/README_TECHNICAL.md).
 
 ### Notes and Troubleshooting
 
