@@ -9,7 +9,7 @@
 (def ^:private scraper-api-url "http://scraper:5000/api/archive")
 
 (defn- get-resource-url [doi]
-  (str "http://localhost:8020/resource/" doi))
+  (str "http://localhost:8021/resource/" doi))
 
 (defn- register-doi! [doi]
   (http/do-post doi-registrar-api-url

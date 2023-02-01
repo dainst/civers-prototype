@@ -10,7 +10,7 @@
  {:port 9631}
  
  :dev-http
- {8021 {:root      "resources/public"
+ {8020 {:root      "resources/public"
         :proxy-url "http://doi-registrar:3000"}}
 
  :builds

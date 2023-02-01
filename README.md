@@ -5,20 +5,7 @@ generate [DOI](https://en.wikipedia.org/wiki/Digital_object_identifier)s,
 aimed at providing permanently citable web resources, which are otherwise
 prone to link-rot.
  
-The prototype demonstrates the interaction of multiple services, which under
-realistic circumstances would be hosted independently at different places.
-
-The main component - the system to be designed - is the **Citator**, the component
-generating the DOIs and capable of taking snapshots of 
-and providing access to the archived websites.
-
-The **DOI Registrar** emulates a central repository where DOIs from different sources
-can be registered and searched. From here one can navigate to the sites registered by the *Citator*.
-
-Although the *Citator* works standalone, that is, one can enter URLs to archive via its user interface, 
-it also provides a **Widget**, which external websites can embed. The widget provides a 
-button which triggers the archival of the page it is embedded in, by sending a request for archival to the *Citator*. 
-In the context of the prototype the **Widget Host** represents an exemplary external website.
+See [here](./docs/README.md) for a description of the system.
 
 ## Prerequisites 
 
@@ -39,11 +26,12 @@ The user interfaces are tested with `Chromium`, `Chrome` and `Firefox`.
 This starts multiple services, three of which have addresses 
 one can visit in the browser:
 
-- http://localhost:8020 # The Citator
-- http://localhost:8021 # The DOI Registrar
+- http://localhost:8020 # The DOI Registrar
+- http://localhost:8021 # The Citator
 - http://localhost:8022 # The Widget Host
 
-The two primary use cases are documented [here](./docs/README.md).
+Please open each of them in its own tab. To learn about the intended behaviour of the system, 
+the two primary use cases are documented [here](./docs/README.md#use-cases).
 
 Note that the generated artifacts, screenshots and html files of archived sites, can be found in the `archive` folder
 in the root directory of this project.

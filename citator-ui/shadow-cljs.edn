@@ -10,7 +10,7 @@
  {:port 9630}
  
  :dev-http
- {8020 {:root      "resources/public"
+ {8021 {:root      "resources/public"
         :proxy-url "http://citator:3000"}}
 
  :builds

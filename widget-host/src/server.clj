@@ -26,7 +26,7 @@
           <h2>Resource: "
            title
            "</h2>
-      <iframe src=\"http://localhost:8020/widget?referrer=" 
+      <iframe src=\"http://localhost:8021/widget?referrer=" 
            (java.net.URLEncoder/encode (str "http://widget-host:3000/" title)) " \" 
               title=\"Widget\"
               height=\"150\"

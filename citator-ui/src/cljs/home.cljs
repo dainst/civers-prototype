@@ -14,9 +14,10 @@
     (set! (.-onmessage ws) (on-message *resources))))
 
 (defn- atom-input [value]
-  [:input.text {:type      "text"
-                :value     @value
-                :on-change #(reset! value (-> % .-target .-value))}])
+  [:input.text {:type        "text"
+                :value       @value
+                :placeholder "http(s)://domain.org/path/to/resource"
+                :on-change   #(reset! value (-> % .-target .-value))}])
 
 (defn- button [on-click-fn]
   [:input {:type     :button
