@@ -100,7 +100,7 @@ $ pip3 install selenium==3.8.0
 To scrape a website run this script from the root directory of the project:
 
 ```bash
-civers-prototype$ python3 scraper/scrape.py <some-url> <target-name>
+civers-prototype$ python3 scraper/scrape.py '<some-url>' '<target-name>'
 ```
 
 The target name will be used to name the generated artifacts in the `archive` folder.
