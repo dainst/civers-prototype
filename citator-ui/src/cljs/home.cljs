@@ -16,7 +16,7 @@
 (defn- atom-input [value]
   [:input.text {:type        "text"
                 :value       @value
-                :placeholder "http(s)://domain.org/path/to/resource"
+                :placeholder "http(s)://domain-name.(com|org|net|...)/path/to/resource"
                 :on-change   #(reset! value (-> % .-target .-value))}])
 
 (defn- button [on-click-fn]
