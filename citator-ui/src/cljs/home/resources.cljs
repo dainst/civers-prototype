@@ -7,9 +7,9 @@
    [:table
     [:thead
      [:tr
-      [:th "Date"]
-      [:th "DOI"]
-      [:th "URL"]]]
+      [:th "Archival date"]
+      [:th "DOI link to citable resource"]
+      [:th "Original URL"]]]
     [:tbody
      (map (fn [{url  "url"
                 doi  "doi"

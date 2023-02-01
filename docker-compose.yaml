@@ -51,7 +51,7 @@ services:
     entrypoint: npx shadow-cljs watch app
     ports: 
       - 8020:8020
-      - 9631:9630
+      - 9631:9631
 
   widget-host:
     build: ./widget-host

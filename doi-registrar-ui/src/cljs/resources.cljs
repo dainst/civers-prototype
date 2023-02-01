@@ -9,7 +9,7 @@
      [:tr
       [:th "Registration date"]
       [:th "DOI"]
-      [:th "URL"]]]
+      [:th "Permalink to cited resources"]]]
     [:tbody
      (map (fn [{url "url" doi "doi" date "date"}]
             [:tr {:key doi}
