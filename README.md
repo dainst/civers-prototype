@@ -80,7 +80,7 @@ TODO verify if you need some special permissions here.
 
 ## Development notes
 
-The *Citator* UI (port `8020`) and the *DOI Registrar* (port `8021`) UI
+The *Citator* UI (port `8021`) and the *DOI Registrar* (port `8020`) UI
 provide hot code reload via `shadow-cljs`. 
 
 Also, hot code reload is provided for the backend code. The reload happens
