@@ -14,9 +14,7 @@ See [here](./docs/README.md) for a description of the system.
 
 Under Mac and Windows this means just installing `Docker Desktop`, which includes both.
 
-When running under Windows it is also recommended to make use of `GitBash`.
-
-Setup tested under **Ubuntu** Linux, **Mac**, **Windows** (Docker Desktop with WSL-2). 
+Setup tested under **Ubuntu** Linux, **Mac**, **Windows**. 
 The user interfaces are tested with `Chromium`, `Chrome` and `Firefox`.
 
 ## Getting started
@@ -62,21 +60,16 @@ if *Widget Host* does not show the widget yet. Make sure everything is fine befo
 To start the test system from scratch again, 
 one simply removes some files and folders.
 
-#### Mac and Linux
-
-Execute the following script:
+Under `Linux` and `Mac` use the following script:
 
     $ ./clean.sh
 
-#### Windows
+Under `Windows`, shut down `docker-compose` (if it runs) and
+delete all files under `archive`, except `.keep`. Then delete the directories `citator-data`
+and `doi-registrar-data`). 
 
-Shut down `docker-compose` (if it runs) and
-delete all files under `archive`, except `.keep`. 
-
-Delete the directories `citator-data`
-and `doi-registrar-data`.
-
-TODO verify if you need some special permissions here.
+Note that on all operating systems you may need special permissions 
+to delete the files created from within the Docker containers.
 
 ## Development notes
 
