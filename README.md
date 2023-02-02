@@ -91,10 +91,12 @@ on each http request against one of the routes configured in `defroutes`.
 The **webscraping** code is written in Python. 
 The code can be developed outside the docker container, in the local environment.
 
-Apart from `python3` and `pip3`, you will need to install `selenium`:
+Apart from `python3` and `pip3`, you will need to install some packages:
 
 ```bash
 $ pip3 install selenium==3.8.0
+$ pip3 install beautifulsoup4
+$ pip3 install requests
 ```
 
 To scrape a website run this script from the root directory of the project:
