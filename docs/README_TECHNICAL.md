@@ -23,7 +23,7 @@ Modern webpages are often dynamically generated. That is the HTML the server del
 to the users' webbrowsers may be (very) different from the HTML which makes up the site
 as the users see it when it is finally rendered in their browsers. 
 This is made possible by JavaScript manipulation of the HTML, which happens inside the users' webbrowsers. 
-In extreme forms, the so-called single page applications, the entire page is constructed in this manner.
+In extreme forms, the so-called single page applications (SPA), the entire page is constructed in this manner.
 For a general approach to webscraping this means that one must take this kind of dynamic buildup of pages
 into consideration.
 
