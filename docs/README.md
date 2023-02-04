@@ -17,28 +17,27 @@ In the context of the prototype the **Widget Host** represents an exemplary exte
 
 ## Use cases
 
+Note that the webscraping unit of the current prototype is limited in its capabilities (see [technical documentation](./README_TECHNICAL.md))
+and as a proof of concept optimized to archive entity pages of [arachne.dainst.org](https://arachne.dainst.org), for example 
+[arachne.dainst.org/entity/1215966](https://arachne.dainst.org/entity/1215966). 
+To get representative results use one of those in the following use cases.
+
 ### Use case 1 - Archive a site via Citator
 
 1. Visit Citator
-1. Insert URL 
-1. Click "submit"
-1. Wait a couple of seconds 
-1. The archived resource should appear as the topmost item under "Resources"
-1. Click its generated DOI to access the detail view for the newly created resources
-1. Follow any of the links
-1. Go back
-1. Visit DOI Registrar
-1. The archived resource should appear there as the topmost item 
+2. Insert URL 
+3. Click "submit"
+4. Wait a couple of seconds 
+5. The archived resource should appear as the topmost item under "Resources"
+6. Click its generated DOI to access the detail view for the newly created resources
+7. Follow any of the links
+8. Go back
+9. Visit DOI Registrar
+10. The archived resource should appear there as the topmost item 
 
 ### Use case 2 - Archive a site via Widget Host
 
 1. Visit Widget host
-1. Click "submit"
-1. Visit Citator
-1. Wait a couple of seconds
-1. The archived resource should appear as the topmost item under "Resources"
-1. Click its generated DOI to access the detail view for the newly created resources
-1. Follow any of the links
-1. Go back
-1. Visit DOI Registrar
-1. The archived resource should appear there as the topmost item
+2. Click "submit"
+3. Visit Citator
+4. Continue with step 4 of Use case 1
