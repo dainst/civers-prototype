@@ -17,7 +17,7 @@ In the context of the prototype the **Widget Host** represents an exemplary exte
 
 ## Use cases
 
-Note that the webscraping unit of the current prototype is limited in its capabilities (see [technical documentation](./README_TECHNICAL.md))
+Note that the webscraping unit of the current prototype is limited in its capabilities (see [technical documentation](./README_TECHNICAL.md#webscraping))
 and as a proof of concept optimized to archive entity pages of [arachne.dainst.org](https://arachne.dainst.org), for example 
 [arachne.dainst.org/entity/1215966](https://arachne.dainst.org/entity/1215966). 
 To get representative results use one of those in the following use cases.

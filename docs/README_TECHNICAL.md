@@ -19,4 +19,19 @@ Scraper and the Citator.
 
 ## Webscraping
 
-TODO provide more info here
+Modern webpages are often dynamically generated. That is the *html* the server delivers
+to the users' webbrowsers may be (very) different from the html which makes up the site
+as the users see it when it is finally rendered in their browsers. 
+This is made possible by `javascript` manipulation of the html, which happens inside the users' webbrowsers. 
+In extreme forms, the so-called single page applications, the entire page is constructed in this manner.
+For a general approach to webscraping this means that one must take this kind of dynamic buildup of pages
+into consideration.
+
+To save a webpage, we use `selenium`, a software which can "remote control" web browsers, to build up
+a website dynamically in the abovementioned sense. Selenium can control different browsers. We use a headless 
+(without a simulated graphical interface) version of Chrome here.
+
+After the page is fetched and and `index.html` is saved to a storage site on the local machine, the next step
+is to fetch referenced `css` stylesheets, and make the `index.html` reference them instead of those on the remote server.
+This is important because they affect in a major way how sites appear, because they not only control colors, but also positioning
+of html elements. And to archive a site means not being dependent in any way on remote artifacts, of course.
