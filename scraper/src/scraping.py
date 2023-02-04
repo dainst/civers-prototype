@@ -31,13 +31,22 @@ def get_artifact_url(url_without_path, href):
         path = '/' + path
     return path, artifact_url
         
+def is_eligible_for_download(href):
+    return (href.endswith('css') and ((href.startswith('http') and href.count('/') == 3) 
+        or (href.startswith('/') and href.count('/') == 1) 
+        or href.count('/') == 0))
+
 def download_css_files(soup, url, target):
     url = url.split('?')[0]
     path = urllib.parse.urlparse(url).path
     url_without_path = url.replace(path, '')
 
     for link in soup.find_all('link'):
-        path, download_path = get_artifact_url(url_without_path, link.get('href'))
+        href = link.get('href')
+        if not is_eligible_for_download(href):
+            continue
+
+        path, download_path = get_artifact_url(url_without_path, href)
 
         link['href'] = target + path
 
@@ -62,7 +71,7 @@ def scrape(driver, url, target):
     soup = BeautifulSoup(content, 'html.parser')
 
     os.mkdir(archive_path + target)
-    # soup = download_css_files(soup, url, archive_path + target)
+    soup = download_css_files(soup, url, archive_path + target)
 
     with open(archive_path + target + '/index.html', 'w') as f:
         f.write(str(soup))

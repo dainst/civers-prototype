@@ -31,7 +31,25 @@ To save a webpage, we use [Selenium](https://www.selenium.dev), a software which
 a website dynamically in the abovementioned sense. Selenium can control different browsers. We use a headless 
 (without a simulated graphical interface) version of Chrome here.
 
+### Stylesheets
+
 After the page is fetched and and `index.html` is saved to a storage site on the local machine, the next step
 is to fetch referenced CSS stylesheets, and make the `index.html` reference them instead of those on the remote server.
 This is important because they affect in a major way how sites appear, because they not only control colors, but also positioning
 of HTML elements. And to archive a site means not being dependent in any way on remote artifacts, of course.
+
+Note for example that, given a generated DOI of `c47ed2dc`, in an archived entity from [archne.dainst.org](https://arachne.dainst.org)
+a reference to a stylesheet like
+
+```
+<link href="styles.css" rel="stylesheet"/>
+```
+
+gets rewritten as
+
+```
+<link href="archive/c47ed2dc/styles.css" rel="stylesheet"/>
+```
+
+The webscraping unit download that file and stores it locally under the given path, such that a webserver on the local server
+can deliver it together with the `index.html` of the archived page.
