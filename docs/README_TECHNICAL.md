@@ -53,3 +53,12 @@ gets rewritten as
 
 The webscraping unit download that file and stores it locally under the given path, such that a webserver on the local server
 can deliver it together with the `index.html` of the archived page.
+
+### Image blobs
+
+Sometimes images are delivered to the browser in the form of blobs. The `src` attributes of the `img` tags
+then reference something like the following: `blob:https://arachne.dainst.org/98fa9127-0ae4-417e-b207-b9dc08fbcce6`.
+These URLs cannot be used to download the fetch the images directly from the server, as they are not "static" artefacts.
+With a tool like Selenium, however, one can execute JavaScript to convert the blobs in the context of the running page.
+The result is then *base64* converted and is saved to a file on a storage site on the local machine. The `src` fields
+of the `img` tags then get adjusted accordingly, to reference the local files.

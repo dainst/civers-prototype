@@ -86,9 +86,7 @@ def download_img_blobs(driver, soup, url, target):
         i += 1
         src = img.get('src')
         if src.startswith('blob'):
-            print('yo', src)
             path = target + '/' + str(i) + '.jpg'
-            print('yo', path)
             with open(path, 'wb') as binary_file:
                 bytes = get_file_content_chrome(driver, src)
                 binary_file.write(bytes)
