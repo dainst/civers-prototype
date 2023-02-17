@@ -24,5 +24,6 @@
   (let [doi      (:doi (:route-params req))
         resource (convert (datastore/get-version doi))
         url      (:url resource)]
-    {:body {:resource (convert (datastore/get-version doi))
-            :versions (map convert (datastore/get-other-versions url doi))}}))
+    {:body (->> (datastore/get-version doi)
+                convert
+                (update :versions #(map convert %)))}))

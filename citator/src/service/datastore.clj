@@ -66,10 +66,19 @@
             version)
       ffirst))
 
+(defn get-other-versions
+  [id version]
+  (->> id
+       get-relations-for-id
+       (remove #(= version (first %)))
+       get-versions-for-relations))
+
 (defn get-version [version]
   (when-let [date (get-date version)]
-    (-> (get-version-at-time version date)
-        update-date)))
+    (let [entity (-> (get-version-at-time version date)
+                      update-date)
+          id      (:xt/id entity)] 
+      (assoc entity :versions (get-other-versions id version)))))
 
 #_{:clj-kondo/ignore [:unresolved-var]}
 (defn- update-entity [resource id version]
@@ -123,10 +132,3 @@
           :in [id]
           :order-by [[date :asc]]}
         id))
-
-(defn get-other-versions
-  [id version]
-  (->> id
-       get-relations-for-id
-       (remove #(= version (first %)))
-       get-versions-for-relations))
