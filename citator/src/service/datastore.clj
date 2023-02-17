@@ -1,18 +1,11 @@
 (ns service.datastore
   (:require [clojure.java.io :as io]
             [mount.core :as mount]
-            [xtdb.api :as xt]))
-
-;; TODO move somewhere else?
-(defn- format-date [date]
-  (.format (java.text.SimpleDateFormat. "yyyy-MM-dd HH:mm") date))
+            [xtdb.api :as xt]
+            [utils.date :refer [now format-date]]))
 
 (defn- update-date [entity]
   (update entity :date format-date))
-
-;; TODO see above
-(defn- now []
-  (java.util.Date.))
 
 (defn start-xtdb! []
   (letfn [(kv-store [dir]
@@ -47,7 +40,7 @@
       seq
       boolean))
 
-(defn- get-date [version]
+(defn- get-version-date [version]
   (-> (xt/q #_{:clj-kondo/ignore [:unresolved-symbol]}
        (xt/db xtdb-node)
             '{:find  [date]
@@ -91,7 +84,7 @@
        get-versions-for-relations))
 
 (defn get-version [version]
-  (when-let [date (get-date version)]
+  (when-let [date (get-version-date version)]
     (let [entity (-> (get-version-at-time version date)
                       update-date)
           id      (:xt/id entity)] 
