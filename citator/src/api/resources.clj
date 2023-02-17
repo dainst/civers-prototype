@@ -21,5 +21,8 @@
 
 (defn get-resource-handler
   [req]
-  (let [doi (:doi (:route-params req))]
-    {:body (convert (datastore/get-version doi))}))
+  (let [doi      (:doi (:route-params req))
+        resource (convert (datastore/get-version doi))
+        url      (:url resource)]
+    {:body {:resource (convert (datastore/get-version doi))
+            :versions (map convert (datastore/get-other-versions url doi))}}))
