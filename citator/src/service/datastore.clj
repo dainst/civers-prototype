@@ -73,7 +73,7 @@
                   [?e :id id]
                   [?e :date date]]
           :in [id]
-          :order-by [[date :asc]]}
+          :order-by [[date :desc]]}
         id))
 
 (defn get-other-versions
