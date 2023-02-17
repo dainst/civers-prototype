@@ -6,9 +6,8 @@
   (let [resource (r/atom nil)]
     (api/fetch-resource resource path)
     (fn [_path]
-      (prn @resource)
-      (let [versions (get @resource "versions")
-            resource (get @resource "resource")]
+      (let [resource @resource
+            versions (get resource "versions")]
         [:<> [:h1 "Citator"]
          [:h2 "Detail view: " path]
          [:a {:href (str "/archive/" path ".png")

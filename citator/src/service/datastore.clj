@@ -66,6 +66,23 @@
             version)
       ffirst))
 
+(defn- get-versions-for-relations [relations]
+  (->> relations
+       (map #(get-version-at-time (first %) (second %)))
+       (map update-date)))
+
+(defn- get-relations-for-id [id]
+  (xt/q #_{:clj-kondo/ignore [:unresolved-symbol]}
+   (xt/db xtdb-node)
+        '{:find  [version date]
+          :where [[?e :xt/id version]
+                  [?e :type :relation]
+                  [?e :id id]
+                  [?e :date date]]
+          :in [id]
+          :order-by [[date :asc]]}
+        id))
+
 (defn get-other-versions
   [id version]
   (->> id
@@ -112,23 +129,6 @@
                   [?e :date date]]
           :order-by [[date :desc]]}))
 
-(defn- get-versions-for-relations [relations]
-  (->> relations
-       (map #(get-version-at-time (first %) (second %)))
-       (map update-date)))
-
 (defn get-all []
   (-> (get-all-relations)
       (get-versions-for-relations)))
-
-(defn- get-relations-for-id [id]
-  (xt/q #_{:clj-kondo/ignore [:unresolved-symbol]}
-   (xt/db xtdb-node)
-        '{:find  [version date]
-          :where [[?e :xt/id version]
-                  [?e :type :relation]
-                  [?e :id id]
-                  [?e :date date]]
-          :in [id]
-          :order-by [[date :asc]]}
-        id))
