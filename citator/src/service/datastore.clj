@@ -7,6 +7,9 @@
 (defn- format-date [date]
   (.format (java.text.SimpleDateFormat. "yyyy-MM-dd HH:mm") date))
 
+(defn- update-date [entity]
+  (update entity :date format-date))
+
 ;; TODO see above
 (defn- now []
   (java.util.Date.))
@@ -34,34 +37,96 @@
           (stop-xtdb! xtdb-node)
           nil))
 
-#_{:clj-kondo/ignore [:unresolved-var]}
-(defn create [resource id]
-  #_{:clj-kondo/ignore [:unresolved-symbol]}
-  (xt/submit-tx xtdb-node
-                [[::xt/put
-                  (assoc resource
-                         :xt/id id
-                         :date  (now))]])
-  #_{:clj-kondo/ignore [:unresolved-symbol]}
-  (xt/sync xtdb-node))
-
-#_{:clj-kondo/ignore [:unresolved-var]}
-(defn get-by-id [id]
+(defn- exists? [version]
   (-> (xt/q #_{:clj-kondo/ignore [:unresolved-symbol]}
        (xt/db xtdb-node)
+            '{:find  [version]
+              :in    [version]
+              :where [[?e :xt/id version]]}
+            version)
+      seq
+      boolean))
+
+(defn- get-date [version]
+  (-> (xt/q #_{:clj-kondo/ignore [:unresolved-symbol]}
+       (xt/db xtdb-node)
+            '{:find  [date]
+              :in    [version]
+              :where [[?e :xt/id version]
+                      [?e :date date]]}
+            version)
+      ffirst))
+
+(defn- get-version-at-time [version date]
+  (-> (xt/q #_{:clj-kondo/ignore [:unresolved-symbol]}
+       (xt/db xtdb-node date)
             '{:find  [(pull ?e [*])]
-              :in    [id]
-              :where [[?e :xt/id id]]}
-            id)
-      ffirst
-      (update :date format-date)))
+              :in    [version]
+              :where [[?e :version version]]}
+            version)
+      ffirst))
+
+(defn get-version [version]
+  (when-let [date (get-date version)]
+    (-> (get-version-at-time version date)
+        update-date)))
+
+#_{:clj-kondo/ignore [:unresolved-var]}
+(defn- update-entity [resource id version]
+  (xt/submit-tx xtdb-node [[::xt/put (assoc resource 
+                                            :xt/id id
+                                            :version version
+                                            :date (now)
+                                            :type :entity)]])
+  (xt/sync xtdb-node))
+
+(defn- add-relation [id version date]
+  (xt/submit-tx xtdb-node [[::xt/put {:xt/id version 
+                                      :id id 
+                                      :date date
+                                      :type :relation}]])
+  (xt/sync xtdb-node))
+
+(defn upsert
+  [resource id version]
+  (if (exists? version)
+    (throw (Exception. (format "Version already exists: %s" version)))
+    (let [date (update-entity resource id version)]
+      (add-relation id version date))))
+
+(defn- get-all-relations []
+  (xt/q #_{:clj-kondo/ignore [:unresolved-symbol]}
+   (xt/db xtdb-node)
+        '{:find  [version date]
+          :where [[?e :xt/id version]
+                  [?e :type :relation]
+                  [?e :date date]]
+          :order-by [[date :desc]]}))
+
+(defn- get-versions-for-relations [relations]
+  (->> relations
+       (map #(get-version-at-time (first %) (second %)))
+       (map update-date)))
 
 (defn get-all []
-  (let [resources (map first (xt/q
-                              #_{:clj-kondo/ignore [:unresolved-symbol]}
-                              (xt/db xtdb-node)
-                              '{:find     [(pull ?e [*]) date]
-                                :where    [[?e :date date]]
-                                :order-by [[date :desc]]}))]
+  (-> (get-all-relations)
+      (get-versions-for-relations)))
 
-    (map #(update % :date format-date) resources)))
+(defn- get-relations-for-id [id]
+  (xt/q #_{:clj-kondo/ignore [:unresolved-symbol]}
+   (xt/db xtdb-node)
+        '{:find  [version date]
+          :where [[?e :xt/id version]
+                  [?e :type :relation]
+                  [?e :id id]
+                  [?e :date date]]
+          :in [id]
+          :order-by [[date :asc]]}
+        id))
+
+(defn get-other-versions
+  [id version]
+  (->> id
+       get-relations-for-id
+       (remove #(= version (first %)))
+       get-versions-for-relations))

@@ -26,12 +26,9 @@
   [url]
   (str/replace url "widget-host:3000" "localhost:8022"))
 
-(defn- make-resource [doi url]
-  {:url       (rewrite-url url)
-   :doi       doi})
-
 (defn- save-resource! [doi url]
-  (datastore/create (make-resource doi url)
+  (datastore/upsert {}
+                    (rewrite-url url)
                     doi))
 
 (defn archive! [url]
