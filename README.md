@@ -14,7 +14,7 @@ See [here](./docs/README.md) for a description of the system.
 
 Under Mac and Windows this means just installing `Docker Desktop`, which includes both.
 
-Setup tested under **Ubuntu** Linux, **Mac**, **Windows**. 
+Setup tested under **Ubuntu** Linux, **Mac** (on Intel), **Windows**. 
 The user interfaces are tested with `Chromium`, `Chrome` and `Firefox`.
 
 ## Getting started
@@ -68,7 +68,7 @@ Under `Windows`, shut down `docker-compose` (if it runs) and
 delete all files under `archive`, except `.keep`. Then delete the directories `citator-data`
 and `doi-registrar-data`). 
 
-Note that on all operating systems you may need special permissions 
+Note that you may need special permissions 
 to delete the files created from within the Docker containers.
 
 ## Development notes
