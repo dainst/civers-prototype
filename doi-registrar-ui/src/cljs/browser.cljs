@@ -17,6 +17,22 @@
     (set! (.-onclose ws) #(prn "onclose" (js/console.log %)))
     (set! (.-onmessage ws) (on-message *resources))))
 
+(defn- direct-link-component [resources]
+  [:div
+   [:input#doi-input 
+    {:type :text
+     :placeholder "DOI"}]
+   [:input.submit-button 
+    {:type          :button
+     :value "Open resource for DOI in new tab"
+     :on-click      (fn [_]
+                      (let [doi    (.-value (.getElementById js/document "doi-input"))
+                            result (->> resources
+                                        (filter #( = doi (get % "doi")))
+                                        first)]
+                        (when result
+                          (.open js/window (get result "url") "_blank"))))}]])
+
 (defn- main-component []
   (let [*resources (r/atom '())]
     (api/fetch-resources *resources)
@@ -24,6 +40,8 @@
     (fn []
       [:<>
        [:h1 "DOI Registrar"]
+       (when (seq @*resources)
+         [direct-link-component @*resources])
        [resources/component @*resources]])))
 
 (defn init
