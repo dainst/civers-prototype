@@ -2,30 +2,27 @@
   (:require [ring.util.response :as response]
             [api.scraping :as scraping]))
 
-;; TODO use cljstache
-
 (defn get-form [req]
   (let [referrer (get (:query-params req) "referrer")
         doi      (get (:query-params req) "doi")]
     
     (if doi
-
-      (str "<div style=\"background-color: darkred; color: white\">
+      (format "<div style=\"background-color: darkred; color: white\">
       <h1>Citator Widget</h1>
-      <b>Cite this entity with as: " doi " (DOI)</b> 
+      <b>Cite this entity with as: %s (DOI)</b> 
       <p>Visit the DOI Registrar and search for this DOI do find 
-         the archived snapshot of this page</div>")
+         the archived snapshot of this page</div>" doi)
       
-      (str "<div style=\"background-color: darkred; color: white\">
+      (format "<div style=\"background-color: darkred; color: white\">
       <h1>Citator Widget</h1>
       <p>Take a snapshot and generate a DOI for this site</p>
       <form method=\"get\" action=\"/widget/request-archival\">
        <input id=\"hidden-field\"
               type=\"hidden\" 
-              name=\"" referrer "\">
+              name=\"%s\">
        <input type=\"submit\" value=\"submit\"/>
       </form>
-    </div>"))))
+    </div>" referrer))))
 
 (defn submit-handler [req]
   (let [referrer (first (keys (:query-params req)))
