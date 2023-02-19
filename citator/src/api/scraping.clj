@@ -16,28 +16,38 @@
                 {:doi doi
                  :url (get-resource-url doi)}))
 
-(defn- request-archival! [doi url]
-  (prn "status from take screenshot"
-       (:status
-        (http/do-post scraper-api-url {:url url 
-                                       :target doi
-                                       :existingDescription "absdlkfjasldfjaösldkfjaöslkdfjaslödkj"}))))
+(defn- request-archival! [doi url description]
+  (let [result (http/do-post scraper-api-url {:url url 
+                                              :target doi
+                                              :existingDescription description})]
+    (prn "result" result)
+    result))
 
 (defn- rewrite-url 
   "This is a hack to account for that we route traffic within the docker compose network"
   [url]
   (str/replace url "widget-host:3000" "localhost:8022"))
 
-(defn- save-resource! [doi url]
-  (datastore/upsert {}
+(defn- save-resource! [doi url description]
+  (datastore/upsert {:description description}
                     (rewrite-url url)
                     doi))
 
 (defn archive! [url]
-  (let [doi (doi/generate)]
+  (let [{existing-description :description
+         existing-doi         :version ;; <- should be phrased in domain terms, i.e. doi, here
+         :as _existing-entity} (datastore/get-by-id (rewrite-url url))
+        existing-description (or existing-description "")
+        doi (doi/generate)
+        {:keys [description]} (request-archival! doi url existing-description)]
 
-    (register-doi! doi)
-    (request-archival! doi url)
-    (save-resource! doi url)
-    
-    doi))
+    (if 
+     ;; TODO deduplicate with condition in Python code
+     (and (= existing-description description)
+          (not= "" existing-description)
+          (not= "" description))
+      existing-doi
+      (do
+        (register-doi! doi)
+        (save-resource! doi url description)
+        doi))))

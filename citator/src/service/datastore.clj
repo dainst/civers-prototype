@@ -76,7 +76,7 @@
           :order-by [[date :desc]]}
         id))
 
-(defn get-other-versions
+(defn- get-other-versions
   [id version]
   (->> id
        get-relations-for-id
@@ -89,6 +89,15 @@
                       update-date)
           id      (:xt/id entity)] 
       (assoc entity :versions (get-other-versions id version)))))
+
+(defn get-by-id [id]
+  (ffirst 
+   (xt/q
+    (xt/db xtdb-node)
+    '{:find  [(pull ?e [*])]
+      :where [[?e :xt/id id]]
+      :in    [id]}
+    id)))
 
 #_{:clj-kondo/ignore [:unresolved-var]}
 (defn- update-entity [resource id version]

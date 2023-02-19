@@ -7,22 +7,7 @@ from src import imgs
 
 archive_path = 'archive/'
 
-def scrape(driver, url, target, existing_description):
-    driver.get(url)
-    time.sleep(3)
-
-    content = driver.page_source
-    soup = BeautifulSoup(content, 'html.parser')
-
-    description = "YLXJASDJFQLWEJRÖLKASDFÖLAKJFDAS" 
-    civers_description = soup.find(id="civers-description")
-    
-    if civers_description:
-        description = civers_description.get_text().strip()
-
-    if existing_description == description:
-        return False
-
+def archive(driver, soup, target, url):
     driver.save_screenshot(archive_path + target + '.png')
 
     os.mkdir(archive_path + target)
@@ -32,4 +17,24 @@ def scrape(driver, url, target, existing_description):
     with open(archive_path + target + '/index.html', 'w') as f:
         f.write(str(soup))
 
-    return True
+def scrape(driver, url, target, existing_description):
+    driver.get(url)
+    time.sleep(3)
+
+    content = driver.page_source
+    soup = BeautifulSoup(content, 'html.parser')
+
+    description = "" 
+    civers_description = soup.find(id="civers-description")
+    
+    if civers_description:
+        description = civers_description.get_text().strip()
+    print("pyhton0 - " + existing_description + " - " + description)
+
+    if existing_description == description and description != "" and existing_description != "":
+        return description
+
+    archive(driver, soup, target, url)
+
+    print("python1: " + description)
+    return description

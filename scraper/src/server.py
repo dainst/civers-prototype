@@ -12,11 +12,9 @@ def take_screenshot():
     url = request.json['url']
     target = request.json['target']
     existing_description = request.json['existingDescription']
-    result = scraping.scrape(driver, url, target, existing_description)
-    status = "ok"
-    if not result:
-        status = "duplicate"
-    return jsonify(status=status)
+    description = scraping.scrape(driver, url, target, existing_description)
+    print("python2 " + description)
+    return jsonify(description=description)
 
 if __name__ == '__main__':
     app.run(
