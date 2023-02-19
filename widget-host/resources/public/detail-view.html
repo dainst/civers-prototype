@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <title>Widget Host</title>
+        <link rel="stylesheet" href="/main.css">
+    <head>
+    <body>
+        <h1>Widget Host</h1>
+        <a href="/">Home</a>
+        <h2>Resource: %s</h2>
+
+        <iframe src="http://localhost:8021/widget?referrer=%s" 
+            title="Widget"
+            height="190"
+            width="400">
+        </iframe>
+        <table>
+            <tr>
+                <td>
+                    %s
+                </td>
+                <td>
+                    <h2>Description</h2>
+                    <span id="civers-description">
+                        %s
+                    </span>
+                    <form action="/change-text">
+                        <button type="submit">
+                            Click here to change description
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

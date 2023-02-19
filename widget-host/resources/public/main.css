@@ -7,3 +7,13 @@ body {
     width: 1200px;
     margin: auto;
 }
+
+td {
+    vertical-align: top;
+    padding: 10px;
+}
+
+
+button {
+    margin-top: 50px;
+}

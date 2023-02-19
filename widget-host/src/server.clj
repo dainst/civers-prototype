@@ -1,58 +1,62 @@
 (ns server
-  (:require [ring.adapter.jetty :as j]
+  (:require [clojure.java.io :as io]
+            [ring.adapter.jetty :as j]
+            [ring.util.response :as response]
             [compojure.core :refer [defroutes GET]]
             [ring.middleware.resource :refer [wrap-resource]]))
 
-;; TODO use cljstache?
+(def first-text "Some text describing the resource")
 
-(defn- get-form 
+(def second-text "An alternative way describing the same resource")
+
+;; Mimicking a db
+(def text (atom first-text))
+
+(defn- make-img [title]
+  (if (= "a" title)
+    "<a href=\"https://commons.wikimedia.org/wiki/File:V%C3%BDkop%C3%A1vky_u_%C5%BDelenic.jpg\"
+                    target=\"_blank\">
+                    <img src=\"/640px-Výkopávky_u_Želenic.jpg\" height=\"320\"></a>"
+    "<a href=\"https://commons.wikimedia.org/wiki/File:Arrizala_-_Sorgi%C3%B1etxe_04.jpg\"
+                    target=\"_blank\">
+                    <img src=\"/Arrizala_-_Sorgiñetxe_04.jpg\" height=\"320\"></a>"))
+
+(defn- get-form-template [title url img text]
+  (format (slurp (io/resource "public/detail-view.html"))
+          title
+          url
+          img
+          text))
+
+(defn- detail-view
   [title]
   (fn
     [_req]
-    (let [img (if (= "a" title) 
-                "<a href=\"https://commons.wikimedia.org/wiki/File:V%C3%BDkop%C3%A1vky_u_%C5%BDelenic.jpg\"
-                    target=\"_blank\">
-                    <img src=\"/640px-Výkopávky_u_Želenic.jpg\" height=\"320\"></a>"
-                "<a href=\"https://commons.wikimedia.org/wiki/File:Arrizala_-_Sorgi%C3%B1etxe_04.jpg\"
-                    target=\"_blank\">
-                    <img src=\"/Arrizala_-_Sorgiñetxe_04.jpg\" height=\"320\"></a>")]
-      (str "<head>
-            <title>Widget Host</title>
-            <link rel=\"stylesheet\" href=\"/main.css\">
-          <head>
-          <div>
-         <h1>Widget Host</h1>
-          <a href=\"/\">Home</a>
-          <h2>Resource: "
-           title
-           "</h2>
-      <iframe src=\"http://localhost:8021/widget?referrer=" 
-           (java.net.URLEncoder/encode (str "http://widget-host:3000/" title)) " \" 
-              title=\"Widget\"
-              height=\"150\"
-              width=\"400\"
-              param1=\"value1\">
-      </iframe>
-      <br>" img
-           "</div>"))))
+    (let [url (java.net.URLEncoder/encode 
+               (str "http://widget-host:3000/" title))
+          img (make-img title)]
+      (get-form-template title url img @text))))
 
 (defn- main-page
   [_req]
-  "<head>
-       <title>Widget Host</title>
-       <link rel=\"stylesheet\" href=\"/main.css\">
-   <head>
-   <h1>Widget Host</h1>
-   <br>
-   <a href=\"/a\">Detail View for Resource \"a\"</a>
-   <br>
-   <a href=\"/b\">Detail View for Resource \"b\"</a>
-   ")
+  (slurp (io/resource "public/main.html")))
+
+(defn- change-text! []
+  (reset! text (if (= first-text @text)
+                 second-text
+                 first-text)))
+
+(defn- change-text [req]
+  (change-text!)
+  (prn "get" 
+       (get-in req [:headers]))
+  (response/redirect (get-in req [:headers "referer"])))
 
 (defroutes routes
   (GET "/" [] main-page)
-  (GET "/a" [] (get-form "a"))
-  (GET "/b" [] (get-form "b")))
+  (GET "/a" [] (detail-view "a"))
+  (GET "/b" [] (detail-view "b"))
+  (GET "/change-text" [] change-text))
 
 (def app 
   (-> routes

@@ -15,7 +15,9 @@
       
       (format "<div style=\"background-color: darkred; color: white\">
       <h1>Citator Widget</h1>
-      <p>Take a snapshot and generate a DOI for this site</p>
+               <p>Cite this resource.<p/>
+      <p> Hit the submit button to 
+               take a snapshot and generate a DOI for this site</p>
       <form method=\"get\" action=\"/widget/request-archival\">
        <input id=\"hidden-field\"
               type=\"hidden\" 
