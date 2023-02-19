@@ -10,4 +10,4 @@ if len(sys.argv) != 3:
 url = sys.argv[1]
 target = sys.argv[2]
 
-scraping.scrape(driver, url, target)
+scraping.scrape(driver, url, target, "abc")

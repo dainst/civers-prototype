@@ -19,7 +19,9 @@
 (defn- request-archival! [doi url]
   (prn "status from take screenshot"
        (:status
-        (http/do-post scraper-api-url {:url url :target doi}))))
+        (http/do-post scraper-api-url {:url url 
+                                       :target doi
+                                       :existingDescription "absdlkfjasldfjaösldkfjaöslkdfjaslödkj"}))))
 
 (defn- rewrite-url 
   "This is a hack to account for that we route traffic within the docker compose network"

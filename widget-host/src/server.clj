@@ -48,8 +48,6 @@
 
 (defn- change-text [req]
   (change-text!)
-  (prn "get" 
-       (get-in req [:headers]))
   (response/redirect (get-in req [:headers "referer"])))
 
 (defroutes routes

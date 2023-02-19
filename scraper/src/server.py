@@ -1,16 +1,22 @@
 from src import scraping
+from src import webdriver
+import requests
 
 from flask import Flask, request, jsonify
 app = Flask(__name__)
 
-driver = scraping.get_chrome_driver()
+driver = webdriver.get_chrome_driver()
 
 @app.route('/api/archive', methods=['POST'])
 def take_screenshot():
     url = request.json['url']
     target = request.json['target']
-    scraping.scrape(driver, url, target)
-    return jsonify(status="ok")
+    existing_description = request.json['existingDescription']
+    result = scraping.scrape(driver, url, target, existing_description)
+    status = "ok"
+    if not result:
+        status = "duplicate"
+    return jsonify(status=status)
 
 if __name__ == '__main__':
     app.run(

@@ -6,7 +6,7 @@ services:
     volumes: 
       - "./scraper/src:/usr/local/app/src:rw"
       - "./archive:/usr/local/app/archive:rw"
-    entrypoint: python3 -m src.server
+    entrypoint: python3 -u -m src.server
     ports:
       - 5005:5000
 
