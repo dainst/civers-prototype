@@ -1,7 +1,8 @@
 **/*/node_modules
 **/*/.shadow-cljs
 **/*/.cpcache
-.clj-kondo
+**/*/.clj-kondo/*
+!**/*/.clj-kondo/config.edn
 .lsp
 .calva
 archive/*

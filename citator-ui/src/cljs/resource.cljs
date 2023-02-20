@@ -7,11 +7,19 @@
        :target "_blank"}
    doi])
 
-(defn- date-component [resource-version]
-  [:<>
-   " ("
-   (:date resource-version)
-   ")"])
+(defn- archived-site-link [doi]
+  [:a {:href (str "/archive/" doi "/index.html")
+       :target "_blank"} (str "/archive/" doi)])
+
+(defn- img [doi]
+  [:a {:href (str "/archive/" doi ".png")
+       :target "_blank"}
+   [:img {:src    (str "/archive/" doi ".png")
+          :height "400px"
+          :width  :auto}]])
+
+(defn- date-component [date]
+  [:<> " (" date ")"])
 
 (defn- version-item [{:keys [doi date]}]
   [:li
@@ -20,43 +28,40 @@
    (date-component date)])
 
 (defn- other-versions-component [resource-versions]
-  [:table
-   [:tbody
-    [:tr
-     [:td [:b "Other versions"]]
-     [:td [:ul (map version-item resource-versions)]]]]])
+  [:tr
+   [:td [:b "Other versions"]]
+   [:td [:ul (map version-item resource-versions)]]])
 
-(defn- metadata-component [resource versions resource-version-id]
+(defn- metadata-component [resource-version resource-versions doi]
   [:table
    [:tbody
     [:tr
      [:td [:b "DOI"]]
-     [:td (:doi resource)]]
+     [:td (:doi resource-version)]]
     [:tr
      [:td [:b "Archival date"]]
-     [:td (:date resource)]]
+     [:td (:date resource-version)]]
+    (when-not (empty? (:description resource-version))
+      [:tr
+       [:td [:b "Description"]]
+       [:td (:description resource-version)]])
     [:tr
      [:td [:b "Archived Site"]]
-     [:td [:a {:href (str "/archive/" resource-version-id "/index.html")
-               :target "_blank"} (str "/archive/" resource-version-id)]]]
+     [:td (archived-site-link doi)]]
     [:tr
      [:td [:b "Original URL"]]
-     [:td [:a {:href (:url resource)
-               :target "_blank"} (:url resource)]]]
-    (when (seq versions)
-      [other-versions-component])]])
+     [:td [:a {:href (:url resource-version)
+               :target "_blank"} (:url resource-version)]]]
+    (when (seq resource-versions)
+      [other-versions-component resource-versions])]])
 
-(defn component [path]
-  (let [resource (r/atom nil)]
-    (api/fetch-resource resource path)
+(defn component [doi]
+  (let [*resource-version (r/atom nil)]
+    (api/fetch-resource *resource-version doi)
     (fn [_path]
-      (let [resource @resource
-            versions (get resource "versions")]
+      (let [resource-version @*resource-version
+            resource-versions (:versions resource-version)]
         [:<> [:h1 "Citator"]
-         [:h2 "Detail view: " path]
-         [:a {:href (str "/archive/" path ".png")
-              :target "_blank"}
-          [:img {:src    (str "/archive/" path ".png")
-                 :height "400px"
-                 :width  :auto}]]
-         [metadata-component resource versions path]]))))
+         [:h2 "Detail view: " doi]
+         (img doi)
+         [metadata-component resource-version resource-versions doi]]))))
