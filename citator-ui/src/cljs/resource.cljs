@@ -2,22 +2,29 @@
   (:require [reagent.core :as r]
             api))
 
+(defn- doi-link [doi]
+  [:a {:href   (str "/resource/" doi)
+       :target "_blank"}
+   doi])
+
+(defn- date-component [resource-version]
+  [:<>
+   " ("
+   (:date resource-version)
+   ")"])
+
+(defn- version-item [{:keys [doi date]}]
+  [:li
+   {:key doi}
+   (doi-link doi)
+   (date-component date)])
+
 (defn- other-versions-component [resource-versions]
   [:table
    [:tbody
     [:tr
      [:td [:b "Other versions"]]
-     [:td [:ul (map (fn [resource-version]
-                      (let [doi (:doi resource-version)]
-                        [:li
-                         {:key doi}
-                         [:a {:href   (str "/resource/" doi)
-                              :target "_blank"}
-                          doi]
-                         " ("
-                         (:date resource-version)
-                         ")"]))
-                    resource-versions)]]]]])
+     [:td [:ul (map version-item resource-versions)]]]]])
 
 (defn- metadata-component [resource versions resource-version-id]
   [:table
