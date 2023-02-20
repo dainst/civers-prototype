@@ -6,7 +6,7 @@ def is_eligible_for_download(href):
         or (href.startswith('/') and href.count('/') == 1) 
         or href.count('/') == 0))
 
-def download_css_files(soup, url, target_artifact_identifier):
+def download_css_files(soup, url, resource_version_id):
     url_without_path = urls.url_without_path(url)
 
     for link in soup.find_all('link'):
@@ -16,7 +16,7 @@ def download_css_files(soup, url, target_artifact_identifier):
 
         url_path, download_path = urls.get_artifact_url(url_without_path, href)
 
-        link['href'] = target_artifact_identifier + url_path
+        link['href'] = resource_version_id + url_path
 
         if not urls.url_with_simple_path(download_path):
             continue;
@@ -26,7 +26,7 @@ def download_css_files(soup, url, target_artifact_identifier):
 
         r = requests.get(download_path)
         if r.status_code == 200:
-            with open(target_artifact_identifier + '/' + artifact, 'w') as f:
+            with open(resource_version_id + '/' + artifact, 'w') as f:
                 f.write(r.text)
 
     return soup

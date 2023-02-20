@@ -2,6 +2,43 @@
   (:require [reagent.core :as r]
             api))
 
+(defn- other-versions-component [resource-versions]
+  [:table
+   [:tbody
+    [:tr
+     [:td [:b "Other versions"]]
+     [:td [:ul (map (fn [resource-version]
+                      (let [doi (:doi resource-version)]
+                        [:li
+                         {:key doi}
+                         [:a {:href   (str "/resource/" doi)
+                              :target "_blank"}
+                          doi]
+                         " ("
+                         (:date resource-version)
+                         ")"]))
+                    resource-versions)]]]]])
+
+(defn- metadata-component [resource versions resource-version-id]
+  [:table
+   [:tbody
+    [:tr
+     [:td [:b "DOI"]]
+     [:td (:doi resource)]]
+    [:tr
+     [:td [:b "Archival date"]]
+     [:td (:date resource)]]
+    [:tr
+     [:td [:b "Archived Site"]]
+     [:td [:a {:href (str "/archive/" resource-version-id "/index.html")
+               :target "_blank"} (str "/archive/" resource-version-id)]]]
+    [:tr
+     [:td [:b "Original URL"]]
+     [:td [:a {:href (:url resource)
+               :target "_blank"} (:url resource)]]]
+    (when (seq versions)
+      [other-versions-component])]])
+
 (defn component [path]
   (let [resource (r/atom nil)]
     (api/fetch-resource resource path)
@@ -15,34 +52,4 @@
           [:img {:src    (str "/archive/" path ".png")
                  :height "400px"
                  :width  :auto}]]
-         [:table
-          [:tbody
-           [:tr
-            [:td [:b "DOI"]]
-            [:td (get resource "doi")]]
-           [:tr
-            [:td [:b "Archival date"]]
-            [:td (get resource "date")]]
-           [:tr
-            [:td [:b "Archived Site"]]
-            [:td [:a {:href (str "/archive/" path "/index.html")
-                      :target "_blank"} (str "/archive/" path)]]]
-           [:tr
-            [:td [:b "Original URL"]]
-            [:td [:a {:href (get resource "url")
-                      :target "_blank"} (get resource "url")]]]
-           (if (seq versions)
-             [:tr
-              [:td [:b "Other versions"]]
-              [:td [:ul (map (fn [version]
-                               (prn version)
-                               (let [doi (get version "doi")]
-                                 [:li
-                                  {:key doi}
-                                  [:a {:href   (str "/resource/" doi)
-                                       :target "_blank"}
-                                   doi]
-                                  " ("
-                                  (get version "date")
-                                  ")"]))
-                             versions)]]])]]]))))
+         [metadata-component resource versions path]]))))

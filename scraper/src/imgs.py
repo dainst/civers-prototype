@@ -34,13 +34,13 @@ def download_img_file(download_path, target_file_relative_storage_path):
         bytes = r.content
         write_binary_file(target_file_relative_storage_path, bytes)
 
-def download_imgs(driver, soup, url, target_artifact_identifier):
+def download_imgs(driver, soup, url, resource_version_id):
     url_without_path = urls.url_without_path(url)
     i = 0
     for img in soup.find_all('img'):
         i += 1
         src = img.get('src')
-        target_file_relative_storage_path = target_artifact_identifier + '/' + str(i) + '.jpg'
+        target_file_relative_storage_path = resource_version_id + '/' + str(i) + '.jpg'
         
         if src.startswith('blob'):
             download_img_blob(driver, src, target_file_relative_storage_path)
