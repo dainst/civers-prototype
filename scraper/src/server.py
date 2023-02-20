@@ -13,7 +13,6 @@ def take_screenshot():
     target = request.json['target']
     existing_description = request.json['existingDescription']
     description = scraping.scrape(driver, url, target, existing_description)
-    print("python2 " + description)
     return jsonify(description=description)
 
 if __name__ == '__main__':

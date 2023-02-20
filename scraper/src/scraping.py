@@ -29,12 +29,10 @@ def scrape(driver, url, target, existing_description):
     
     if civers_description:
         description = civers_description.get_text().strip()
-    print("pyhton0 - " + existing_description + " - " + description)
 
     if existing_description == description and description != "" and existing_description != "":
         return description
 
     archive(driver, soup, target, url)
 
-    print("python1: " + description)
     return description
