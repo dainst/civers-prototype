@@ -17,7 +17,7 @@
       <h1>Citator Widget</h1>
                <p>Cite this resource.<p/>
       <p> Hit the submit button to 
-               take a snapshot and generate a DOI for this site</p>
+               take a snapshot and generate a DOI for this page</p>
       <form method=\"get\" action=\"/widget/request-archival\">
        <input id=\"hidden-field\"
               type=\"hidden\" 

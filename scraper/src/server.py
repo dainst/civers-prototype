@@ -10,9 +10,9 @@ driver = webdriver.get_chrome_driver()
 @app.route('/api/archive', methods=['POST'])
 def take_screenshot():
     url = request.json['url']
-    target = request.json['target']
+    target_artifact_identifier = request.json['target']
     existing_description = request.json['existingDescription']
-    description = scraping.scrape(driver, url, target, existing_description)
+    description = scraping.scrape(driver, url, target_artifact_identifier, existing_description)
     return jsonify(description=description)
 
 if __name__ == '__main__':

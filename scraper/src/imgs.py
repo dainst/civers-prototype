@@ -1,4 +1,6 @@
 import base64
+import requests
+from src import urls
 
 # https://stackoverflow.com/a/47425305
 def get_file_content_chrome(driver, uri):
@@ -17,15 +19,37 @@ def get_file_content_chrome(driver, uri):
     raise Exception("Request failed with status %s" % result)
   return base64.b64decode(result)
 
-def download_img_blobs(driver, soup, url, target):
+# TODO extract into utils module
+def write_binary_file(target_file_relative_storage_path, bytes):
+    with open(target_file_relative_storage_path, 'wb') as binary_file:
+        binary_file.write(bytes)
+
+def download_img_blob(driver, src, target_file_relative_storage_path):
+    bytes = get_file_content_chrome(driver, src)
+    write_binary_file(target_file_relative_storage_path, bytes)
+    
+def download_img_file(download_path, target_file_relative_storage_path):
+    r = requests.get(download_path)
+    if r.status_code == 200:
+        bytes = r.content
+        write_binary_file(target_file_relative_storage_path, bytes)
+
+def download_imgs(driver, soup, url, target_artifact_identifier):
+    url_without_path = urls.url_without_path(url)
     i = 0
     for img in soup.find_all('img'):
         i += 1
         src = img.get('src')
+        target_file_relative_storage_path = target_artifact_identifier + '/' + str(i) + '.jpg'
+        
         if src.startswith('blob'):
-            path = target + '/' + str(i) + '.jpg'
-            with open(path, 'wb') as binary_file:
-                bytes = get_file_content_chrome(driver, src)
-                binary_file.write(bytes)
-            img['src'] = path
+            download_img_blob(driver, src, target_file_relative_storage_path)
+        else:
+            _url_path, download_path = urls.get_artifact_url(url_without_path, src)
+            if not urls.url_with_simple_path(download_path):
+                continue
+            download_img_file(download_path, target_file_relative_storage_path)            
+
+        img['src'] = "/" + target_file_relative_storage_path
+
     return soup

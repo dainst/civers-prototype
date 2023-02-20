@@ -17,11 +17,9 @@
                  :url (get-resource-url doi)}))
 
 (defn- request-archival! [doi url description]
-  (let [result (http/do-post scraper-api-url {:url url 
-                                              :target doi
-                                              :existingDescription description})]
-    (prn "result" result)
-    result))
+  (http/do-post scraper-api-url {:url url 
+                                 :target doi
+                                 :existingDescription description}))
 
 (defn- rewrite-url 
   "This is a hack to account for that we route traffic within the docker compose network"

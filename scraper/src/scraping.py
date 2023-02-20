@@ -7,17 +7,17 @@ from src import imgs
 
 archive_path = 'archive/'
 
-def archive(driver, soup, target, url):
-    driver.save_screenshot(archive_path + target + '.png')
+def archive(driver, soup, target_artifact_identifier, url):
+    driver.save_screenshot(archive_path + target_artifact_identifier + '.png')
 
-    os.mkdir(archive_path + target)
-    soup = css.download_css_files(soup, url, archive_path + target)
-    soup = imgs.download_img_blobs(driver, soup, url, archive_path + target)
+    os.mkdir(archive_path + target_artifact_identifier)
+    soup = css.download_css_files(soup, url, archive_path + target_artifact_identifier)
+    soup = imgs.download_imgs(driver, soup, url, archive_path + target_artifact_identifier)
 
-    with open(archive_path + target + '/index.html', 'w') as f:
+    with open(archive_path + target_artifact_identifier + '/index.html', 'w') as f:
         f.write(str(soup))
 
-def scrape(driver, url, target, existing_description):
+def scrape(driver, url, target_artifact_identifier, existing_description):
     driver.get(url)
     time.sleep(3)
 
@@ -33,6 +33,6 @@ def scrape(driver, url, target, existing_description):
     if existing_description == description and description != "" and existing_description != "":
         return description
 
-    archive(driver, soup, target, url)
+    archive(driver, soup, target_artifact_identifier, url)
 
     return description
