@@ -1,6 +1,6 @@
 # Technical documentation
 
-## Service architecture
+## Service architecture 
 
 Services and modules:
 
