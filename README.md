@@ -34,10 +34,7 @@ the two primary use cases are documented [here](./docs/README.md#use-cases).
 Note that the generated artifacts, screenshots and html files of archived sites, can be found in the `archive` folder
 in the root directory of this project.
 
-Note also that apart from the three user interfaces mentioned there exist multiple backend service **APIs**.
-The *DOI Registrar* has an API, the *Citator* has one API to request archival of arbitrary websites and one API
-which provides the *Widget*. Finally the **Scraper** itself provides an API which makes the scraping code directly accessible
-(omitting DOI generation).
+
 
 For an architectural overview consult the [technical documentation](./docs/README_TECHNICAL.md).
 

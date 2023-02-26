@@ -17,6 +17,13 @@ keep track of registered resources (DOI, URL, storage paths, dates, etc.).
 Additionally there is one file storage, which is shared amongst the 
 Scraper and the Citator.
 
+### APIs
+
+Note that apart from the three user interfaces there exist multiple backend service **APIs**.
+The *DOI Registrar* has an API, the *Citator* has one API to request archival of arbitrary websites and one API
+which provides the *Widget*. Finally the **Scraper** itself provides an API which makes the scraping code directly accessible
+(omitting DOI generation).
+
 ## Webscraping
 
 Modern webpages are often dynamically generated. That is the HTML the server delivers

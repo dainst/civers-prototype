@@ -5,6 +5,7 @@
 !**/*/.clj-kondo/config.edn
 .lsp
 .calva
+.clj-kondo
 archive/*
 !archive/.keep
 citator-data
