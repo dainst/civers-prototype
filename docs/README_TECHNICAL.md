@@ -2,27 +2,38 @@
 
 ## Service architecture
 
-Services:
+Services and modules:
 
-- Scraper
-- Citator
-    - provides Widget
 - DOI Registrar
+- Citator
+    - Comparator
+    - Scraper
+    - Resource Archive
 - Widget Host
-    - embeds Widget
 
-The Citator and the DOI Registrar each have their own database to
+The *Citator* and the *DOI Registrar* each have their own database to
 keep track of registered resources (DOI, URL, storage paths, dates, etc.).
 
-Additionally there is one file storage, which is shared amongst the 
-Scraper and the Citator.
+The *Scraper* is implemented as a different Docker service, also logically it is part of 
+the *Citator*. See below for more details on webscraping.
+
+The *Comparator* is another logical module, which in our case is just comprised of a few lines of code
+within the *Scraper* module. It is responsible vor versioning (see below).
+
+There is one file storage, which is shared amongst the 
+*Scraper* and the *Citator*. From the user perspective, it is a service accessible
+via the *Citator*'s website. We call it the *Resource Archive* component.
 
 ### APIs
 
 Note that apart from the three user interfaces there exist multiple backend service **APIs**.
-The *DOI Registrar* has an API, the *Citator* has one API to request archival of arbitrary websites and one API
-which provides the *Widget*. Finally the **Scraper** itself provides an API which makes the scraping code directly accessible
-(omitting DOI generation).
+The *DOI Registrar* has an API, the *Citator* has one API to request archival of arbitrary websites and one API which provides the *Widget*. Finally the *Scraper* itself provides an API which makes the scraping code directly accessible (omitting DOI generation).
+
+## Versioning 
+
+The *Comparator*'s role is to determine whether, on request of a DOI, a snapshot of a site is taken or an existing one is sufficient. The decision mechanism in our prototype is based on the date the resource has last changed. The idea is that sites provide such a date in a special markup field in the DOM, where it can be looked up by the *Scraper*. If the date is newer than one of the already archived versions of a given site, a new snapshot is taken and a new version is generated. If the date is older or equal to the date of the latest archived version, no new version gets created. If no date field is found in the markup, a new version gets created on every DOI request.
+
+In any case the *Comparator*'s purpose is to limit the number of snapshots to take and versions to create. It is not a detail which is necessary to understand as a user of the system. The system always responds with a DOI when one is requested. This DOI is always linked to a version which is "up to date" at the point in time the DOI is requested (/ the citation is made).
 
 ## Webscraping
 

@@ -12,32 +12,56 @@ can be registered and searched. From here one can navigate to the sites register
 
 Although the *Citator* works standalone, that is, one can enter URLs to archive via its user interface, 
 it also provides a **Widget**, which external websites can embed. The widget provides a 
-button which triggers the archival of the page it is embedded in, by sending a request for archival to the *Citator*. 
-In the context of the prototype the **Widget Host** represents an exemplary external website.
-
-## Use cases
+button which triggers the archival of the page it is embedded in, by sending a request for archival to the *Citator*. In the context of the prototype the **Widget Host** represents an exemplary external website.
 
 Note that the webscraping unit of the current prototype is limited in its capabilities (see [technical documentation](./README_TECHNICAL.md#webscraping))
 and as a proof of concept optimized to archive entity pages of [arachne.dainst.org](https://arachne.dainst.org), for example 
 [arachne.dainst.org/entity/1215966](https://arachne.dainst.org/entity/1215966). 
-To get representative results use one of those in the following use cases.
+To get representative results use one of those when following along the described usage scenarios.
 
-### Use case 1 - Archive a site via Citator
+## Use cases
+
+There are two basic use cases of the overall system. 
+
+1. There is a person **writing** a paper or an article who wants to **cite** a digital resource.
+2. There is a person **reading** a paper or an article who encounters a citation in a footnote and wants to **look up** the cited digital resource.
+
+In the first use case the writer's goal is to obtain a stable identifier, pointing to a permanently stable
+resource in the internet. To get one, he starts by either visiting the *Citator* directly, entering the URL of the resource to cite, or by visiting the resource to cite, provided it embeds the *Citator Widget*. In either case he then requests a DOI which he can use for citation. The system responds with such a DOI.
+
+In the second use case we put ourselves in the shoes of the reader. With a citation in hand he visits the *DOI Registrar* to find the permanently accessible representation of the cited resource. He enters the resource's DOI and gets redirected to an overview page. This page describes the resource and provides links to a screenshot, a snapshot of the resource of the site taken at the time of citation. It also provides links to older and newer versions of the same site, taken at other points in time.
+
+Here are the steps to follow along in the prototype:
+
+##### Obtaining a DOI
+
+To obtain a DOI directly via the *Citator*, do the following:
 
 1. Visit Citator
 2. Insert URL 
 3. Click "submit"
 4. Wait a couple of seconds 
 5. The archived resource should appear as the topmost item under "Resources"
-6. Click its generated DOI to access the detail view for the newly created resources
-7. Follow any of the links
-8. Go back
-9. Visit DOI Registrar
-10. The archived resource should appear there as the topmost item 
 
-### Use case 2 - Archive a site via Widget Host
+The DOI of the archived resource shows up as a link in a listing of all archived resources (showing the newest at the top), providing access to the detail page of the archived resource.
 
-1. Visit Widget host
-2. Click "submit"
-3. Visit Citator
-4. Continue with step 4 of Use case 1
+To obtain the DOI via the *Citation Widget*, do the following:
+
+1. Visit the Widget Host
+1. In the Citation Widget for a given resource, click "submit"
+1. After a copule of seconds, the widget responds with a DOI for citation 
+
+##### Looking up a DOI
+
+Given a DOI acquired by following along the previously described steps, do the following
+to look up the archived resource:
+
+1. Visit the DOI Registrar
+1. Enter the DOI
+1. You will get redirected to the resource
+
+The DOI of the archived resource also shows up as a link in a listing of all registered resources (showing the newest at the top), providing access to the detail page of the archived resource.
+
+Note that all archived resources get listed in the *Citator* as well as in the *DOI Registrar*, newest first.
+Both listings provide 
+
