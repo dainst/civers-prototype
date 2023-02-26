@@ -106,3 +106,7 @@ of the `img` tags then get adjusted accordingly, to reference the local files.
 ### Pop-Ups
 
 Many sites nowadays present popups, where users must make decisions regarding to browser privacy. Usually this means choosing between some options of accepting or not accepting cookies. With the help of *Selenium*, which let's one interact with the browser in an automated fashion, it is possible to click one's way such that a page can be seen "as is" (i.e. without a popup obstructing the view). If this is or is not difficult to do in a general manner remains to be seen.9
+
+### HTML cleaning
+
+Although it is not implemented in the prototype, one should consider if the HTML can be cleaned. We can advise against modifying classes and ids because any such change potentially can break the layout of the page, because they may be referenced from the CSS. However one probably can remove JavaScript scripts without impunity. Also one can see if one can deactive buttons and other input fields. The archived should preserver its look, but not it's feel, so to speak. There is no necessity for it to be interactive (and we do not want suggeset interactivity where there is none) and we also want to prevent it making any requests by accident (although those may fail anyways).
