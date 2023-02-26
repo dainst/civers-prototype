@@ -65,3 +65,12 @@ The DOI of the archived resource also shows up as a link in a listing of all reg
 Note that all archived resources get listed in the *Citator* as well as in the *DOI Registrar*, newest first.
 Both listings provide 
 
+### Citing a resource again
+
+Now we assume now there is another writer who also wants to cite the exact same resource, at a later point in time. Of course he will follow the exact same steps to obtain a citable DOI.
+
+Let's see how this works in the prototype. Once you finished a first walkthrough through a complete use case (creating a snapshot, looking up the resource with the help of the generated DOI), visit the *Widget Host* again and reload the page. Now, when you press the "submit" button of the *Widget* again, it returns with the exact same DOI it already returned on the first time. Why is that?
+
+To save resources, the *Citator* compares the first snapshot of the site with the one taken earlier. To do this, it compares the two snapshots by "Last updated" date. If it is the same, which it is in this case, it will simply return an existing DOI.
+
+To simulate the case where the page got updated in the meanwhile, the resource detail pages of the *Widget Host* provides a button which let's one change the last updated date of the resource. If this is different (really, greater than, but in the prototype we simply can choose between two dates) then a new snapshot gets taken, a new version of the archived resource created, and a new DOI gets returned to the user.

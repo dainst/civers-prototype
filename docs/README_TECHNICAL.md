@@ -47,6 +47,11 @@ Note that a more complex scenario arises if the system is expected to cater for 
 
 While the decision mechanism in the prototype is based on a date field comparison, delegating responsibility for maintaining and marking the date field accordingly, it is conceivable that other heuristics could be employed for automatically inferring if a site has changed. Usually this has to be based on some metadate taken from the HTML. Another option would be to infer it by comparison of the HTML. The simplest method here would be to check if the HTML stayed the same. A complex heuristic would be to check if the HTML is similar. It is not clear, however, if this can be made to lead to reliable results.
 
+## Metadata extraction
+
+What is also exemplified with the "Last updated" date which is used in the *Comparator's* decision making process regarding versioning, is the **extraction of metadata**. This really can include any field of interest. What is crucial is that there needs
+to be some sort of contract defined between the websites which are "supported" in this regard and the *Citator* itself. The *Citator* of course needs to know where the metadata are to be found. In our case, this was achieved by annotating a DOM element with a special id (`civers-last-updated`).
+
 ## Webscraping
 
 Modern webpages are often dynamically generated. That is the HTML the server delivers
