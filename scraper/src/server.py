@@ -11,9 +11,9 @@ driver = webdriver.get_chrome_driver()
 def take_screenshot():
     url = request.json['url']
     resource_version_id = request.json['target']
-    existing_description = request.json['existingDescription']
-    description = scraping.scrape(driver, url, resource_version_id, existing_description)
-    return jsonify(description=description)
+    existing_last_updated = request.json['existingLastUpdated']
+    last_updated = scraping.scrape(driver, url, resource_version_id, existing_last_updated)
+    return jsonify(lastUpdated=last_updated)
 
 if __name__ == '__main__':
     app.run(
