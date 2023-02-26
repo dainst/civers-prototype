@@ -97,3 +97,7 @@ These URLs cannot be used to download the fetch the images directly from the ser
 With a tool like Selenium, however, one can execute JavaScript to convert the blobs in the context of the running page.
 The result is then *base64* converted and is saved to a file on a storage site on the local machine. The `src` fields
 of the `img` tags then get adjusted accordingly, to reference the local files.
+
+### Pop-Ups
+
+Many sites nowadays present popups, where users must make decisions regarding to browser privacy. Usually this means choosing between some options of accepting or not accepting cookies. With the help of *Selenium*, which let's one interact with the browser in an automated fashion, it is possible to click one's way such that a page can be seen "as is" (i.e. without a popup obstructing the view). If this is or is not difficult to do in a general manner remains to be seen.9
