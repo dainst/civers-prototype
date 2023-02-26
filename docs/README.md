@@ -63,7 +63,10 @@ to look up the archived resource:
 The DOI of the archived resource also shows up as a link in a listing of all registered resources (showing the newest at the top), providing access to the detail page of the archived resource.
 
 Note that all archived resources get listed in the *Citator* as well as in the *DOI Registrar*, newest first.
-Both listings provide 
+
+Note also that the process could be streamlined even further, by letting users cite not only a DOI,
+but a URL including a DOI. This would look something like this: `http://localhost:8021/doi/123456` (where `localhost:8021` would be the URL of some DOI registry). Entering this URL into the browser
+would directly redirect to the archived page hosted under the domain of the *Citator* it was archived with. It should be emphasized that we do not want to cite the archived resource directly, i.e. we do not want to cite the URL for the archived resource itself. The reason for this is that there can be multiple *Citators*, hosted at different institutions. The user should not know about this but instead always go the route via the (or "a") *DOI Registrar*.
 
 ### Citing a resource again
 
