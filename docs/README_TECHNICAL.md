@@ -35,6 +35,14 @@ The *Comparator*'s role is to determine whether, on request of a DOI, a snapshot
 
 In any case the *Comparator*'s purpose is to limit the number of snapshots to take and versions to create. It is not a detail which is necessary to understand as a user of the system. The system always responds with a DOI when one is requested. This DOI is always linked to a version which is "up to date" at the point in time the DOI is requested (/ the citation is made).
 
+### Identity of entities and design choices regarding DOIs
+
+While we opted for a one to one correspondence between versions and DOIs, meaning that each new version of a given entity gets its own DOI, this must be considered as one possible design choice. Another would be to assign one DOI per entity.
+
+An entity, it should be noted, is identified by a URL (excluding query params). For example `https://arachne.dainst.org/entity/123` constitutes one entity, persisting through time. Different versions of an entity are associated to one another based on this assumption.
+
+Note that a more complex scenario arises if the system is expected to cater for domain moves (for the sake example, let's say `arachne.dainst.org` moves to `arachne.dainst.de`). 
+
 ## Webscraping
 
 Modern webpages are often dynamically generated. That is the HTML the server delivers
