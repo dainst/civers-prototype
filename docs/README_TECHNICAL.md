@@ -43,6 +43,10 @@ An entity, it should be noted, is identified by a URL (excluding query params). 
 
 Note that a more complex scenario arises if the system is expected to cater for domain moves (for the sake example, let's say `arachne.dainst.org` moves to `arachne.dainst.de`). 
 
+### Comparing versions
+
+While the decision mechanism in the prototype is based on a date field comparison, delegating responsibility for maintaining and marking the date field accordingly, it is conceivable that other heuristics could be employed for automatically inferring if a site has changed. Usually this has to be based on some metadate taken from the HTML. Another option would be to infer it by comparison of the HTML. The simplest method here would be to check if the HTML stayed the same. A complex heuristic would be to check if the HTML is similar. It is not clear, however, if this can be made to lead to reliable results.
+
 ## Webscraping
 
 Modern webpages are often dynamically generated. That is the HTML the server delivers
