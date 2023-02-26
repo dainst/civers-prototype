@@ -17,22 +17,22 @@ def archive(driver, soup, resource_version_id, url):
     with open(archive_path + resource_version_id + '/index.html', 'w') as f:
         f.write(str(soup))
 
-def scrape(driver, url, resource_version_id, existing_description):
+def scrape(driver, url, resource_version_id, existing_last_updated):
     driver.get(url)
     time.sleep(3)
 
     content = driver.page_source
     soup = BeautifulSoup(content, 'html.parser')
 
-    description = "" 
-    civers_description = soup.find(id="civers-description")
+    last_updated = "" 
+    civers_last_updated = soup.find(id="civers-last-updated")
     
-    if civers_description:
-        description = civers_description.get_text().strip()
+    if civers_last_updated:
+        last_updated = civers_last_updated.get_text().strip()
 
-    if existing_description == description and description != "" and existing_description != "":
-        return description
+    if existing_last_updated == last_updated and last_updated != "" and existing_last_updated != "":
+        return last_updated
 
     archive(driver, soup, resource_version_id, url)
 
-    return description
+    return last_updated

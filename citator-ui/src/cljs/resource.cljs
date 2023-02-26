@@ -41,10 +41,10 @@
     [:tr
      [:td [:b "Archival date"]]
      [:td (:date resource-version)]]
-    (when-not (empty? (:description resource-version))
+    (when-not (empty? (:last-updated resource-version))
       [:tr
-       [:td [:b "Description"]]
-       [:td (:description resource-version)]])
+       [:td [:b "Last updated"]]
+       [:td (:last-updated resource-version)]])
     [:tr
      [:td [:b "Archived Site"]]
      [:td (archived-site-link doi)]]

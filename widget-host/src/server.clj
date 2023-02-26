@@ -5,12 +5,12 @@
             [compojure.core :refer [defroutes GET]]
             [ring.middleware.resource :refer [wrap-resource]]))
 
-(def first-text "Some text describing the resource")
+(def first-last-updated "2023-02-15")
 
-(def second-text "An alternative way describing the same resource")
+(def second-last-updated "2023-02-16")
 
 ;; Mimicking a db
-(def text (atom first-text))
+(def last-updated (atom first-last-updated))
 
 (defn- make-img [title]
   (if (= "a" title)
@@ -21,12 +21,12 @@
                     target=\"_blank\">
                     <img src=\"/Arrizala_-_Sorgiñetxe_04.jpg\" height=\"320\"></a>"))
 
-(defn- get-form-template [title url img text]
+(defn- get-form-template [title url img last-updated]
   (format (slurp (io/resource "public/detail-view.html"))
           title
           url
           img
-          text))
+          last-updated))
 
 (defn- detail-view
   [title]
@@ -35,26 +35,26 @@
     (let [url (java.net.URLEncoder/encode 
                (str "http://widget-host:3000/" title))
           img (make-img title)]
-      (get-form-template title url img @text))))
+      (get-form-template title url img @last-updated))))
 
 (defn- main-page
   [_req]
   (slurp (io/resource "public/main.html")))
 
-(defn- change-text! []
-  (reset! text (if (= first-text @text)
-                 second-text
-                 first-text)))
+(defn- change-last-updated! []
+  (reset! last-updated (if (= first-last-updated @last-updated)
+                         second-last-updated
+                         first-last-updated)))
 
-(defn- change-text [req]
-  (change-text!)
+(defn- change-last-updated [req]
+  (change-last-updated!)
   (response/redirect (get-in req [:headers "referer"])))
 
 (defroutes routes
   (GET "/" [] main-page)
   (GET "/a" [] (detail-view "a"))
   (GET "/b" [] (detail-view "b"))
-  (GET "/change-text" [] change-text))
+  (GET "/change-last-updated" [] change-last-updated))
 
 (def app 
   (-> routes

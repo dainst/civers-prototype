@@ -9,7 +9,7 @@
     (if doi
       (format "<div style=\"background-color: darkred; color: white\">
       <h1>Citator Widget</h1>
-      <b>Cite this entity with as: %s (DOI)</b> 
+      <b>Cite this entity as \"%s\" (DOI)</b> 
       <p>Visit the DOI Registrar and search for this DOI do find 
          the archived snapshot of this page</div>" doi)
       
