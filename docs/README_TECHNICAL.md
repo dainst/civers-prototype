@@ -74,13 +74,18 @@ a reference to a stylesheet like
 gets rewritten as
 
 ```
-<link href="archive/c47ed2dc/styles.css" rel="stylesheet"/>
+<link href="/archive/c47ed2dc/styles.css" rel="stylesheet"/>
 ```
 
 The webscraping unit download that file and stores it locally under the given path, such that a webserver on the local server
 can deliver it together with the `index.html` of the archived page.
 
-### Image blobs
+### Images
+
+Images per se are handled exactly like stylesheets. The artifacts get downloaded and linked accordingly.
+However, there is a special case, namely were images are not artifacts that can be downloaded from the server, but are stored as temporary blobs inside the browser.
+
+#### Image blobs
 
 Sometimes images are delivered to the browser in the form of blobs. The `src` attributes of the `img` tags
 then reference something like the following: `blob:https://arachne.dainst.org/98fa9127-0ae4-417e-b207-b9dc08fbcce6`.
