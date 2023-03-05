@@ -1,7 +1,8 @@
 import sys
 from src import scraping
+from src import webdriver
 
-driver = scraping.get_chrome_driver()
+driver = webdriver.get_chrome_driver()
 
 if len(sys.argv) != 3:
     print("expected 2 args: url and target")
