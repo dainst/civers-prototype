@@ -26,12 +26,12 @@
                    (when f (f))))))
 
 (defn archive-url!
-  [url]
+  [url handler]
    ;; TODO improve on post and get /api, perhaps by having different endpoints
   (make-call POST 
              "resource" 
              (stringify-map {:url url})
-             #(do nil)))
+             handler))
 
 (defn fetch-resource [resource path]
   (make-call GET
