@@ -1,5 +1,6 @@
 import urllib.parse
 
+# TODO get rid of this, on call-sites, replace with calls to get_new_href_and_download_path
 def get_artifact_url(url_without_path, href):
     artifact_url = ''
     path = urllib.parse.urlparse(href).path
@@ -30,3 +31,17 @@ def url_with_simple_path(path):
     but one which is not complex (like /abc/def.png).
     """
     return path.count("/") == 3
+
+def get_new_href_and_download_path(base_url, href, i):
+
+    if not href.startswith("http"):
+        if not href.startswith("/"):
+            # this seems not to be correct (relative path), but is needed for the styles.css and main.css of the arachne entity pages
+            return "/" + href, url_without_path(base_url) + "/" + href
+        return href, url_without_path(base_url) + href
+
+    if base_url.startswith(url_without_path(href)):
+        return href.replace(url_without_path(href), ""), href
+    
+    # naive version to prevent us to have to url encode the url to be suitable as folder name
+    return "/" + str(i) + href.replace(url_without_path(href), ""), href
