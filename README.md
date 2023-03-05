@@ -34,8 +34,6 @@ the two primary use cases are documented [here](./docs/README.md#use-cases).
 Note that the generated artifacts, screenshots and html files of archived sites, can be found in the `archive` folder
 in the root directory of this project.
 
-
-
 For an architectural overview consult the [technical documentation](./docs/README_TECHNICAL.md).
 
 ### Notes and Troubleshooting
