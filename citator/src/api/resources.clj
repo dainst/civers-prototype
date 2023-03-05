@@ -14,16 +14,15 @@
   {:body {:resources (map convert (datastore/get-all))}})
 
 #_{:clj-kondo/ignore [:unresolved-var]}
-(defn submit-handler [{{url :url} :body}]
-  (let [doi (scraping/archive! url)]
-    {:body {:status :ok
-            :doi    doi}}))
+(defn submit-handler [notify-listeners]
+  (fn [{{url :url} :body}]
+    (future (scraping/archive! url)
+            (notify-listeners))
+    {:body {:status :ok}}))
 
 (defn get-resource-handler
   [req]
-  (let [doi      (:doi (:route-params req))
-        resource (convert (datastore/get-version doi))
-        url      (:url resource)]
+  (let [doi      (:doi (:route-params req))]
     {:body (-> (datastore/get-version doi)
                convert
                (update :versions #(map convert %)))}))

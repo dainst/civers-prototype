@@ -47,7 +47,7 @@
   (context "/api" []
     (GET "/resources" [] (wrap-api resources/get-handler))
     (GET "/resource/:doi" [] (wrap-api resources/get-resource-handler))
-    (POST "/resource" [] (wrap-api resources/submit-handler)))
+    (POST "/resource" [] (wrap-api (resources/submit-handler notify-listeners))))
   (GET "/widget" [] (wrap-params widget/get-form))
   (GET "/widget/request-archival" [] (-> widget/submit-handler wrap-send-ws wrap-params))
   (GET "/resource/:id" [] (response/resource-response "public/index.html"))

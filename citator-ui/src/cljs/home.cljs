@@ -24,21 +24,20 @@
            :on-click on-click-fn
            :value    "submit"}])
 
-(defn- main-component [*url *resources reset-url!]
+(defn- main-component [*url]
   [:<> [:h1 "Citator"]
    [:p "Insert the URL of a site you want to archive here and click submit."]
    [atom-input *url]
-   [button #(api/archive-url! @*url *resources reset-url!)]])
+   [button #(api/archive-url! @*url)]])
 
 ;; TODO use r/let to make a fetch call
 (defn component []
   (let [*url       (r/atom "")
-        reset-url! #(reset! *url "")
         *resources (r/atom '())]
     (api/fetch-resources *resources)
     (create-ws *resources)
     (fn []
       [:<>
-       [main-component *url *resources reset-url!]
+       [main-component *url]
        (when (seq @*resources)
          [resources/component @*resources])])))
