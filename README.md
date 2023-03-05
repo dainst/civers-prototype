@@ -97,6 +97,14 @@ civers-prototype$ python3 scraper/scrape.py '<some-url>' '<target-name>'
 
 The target name will be used to name the generated artifacts in the `archive` folder.
 
+There is also a (mini-)test-suite. Run it with
+
+```bash
+civers-prototype$ python3 scraper/test.py
+```
+
+It should return nothing if everything works fine, otherwise it would show an AssertionError
+
 ### Working with the REPL
 
 - Uncomment one and comment the other entrypoint in docker-compose.yml, for a given service
