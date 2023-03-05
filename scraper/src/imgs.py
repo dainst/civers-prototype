@@ -48,9 +48,7 @@ def download_imgs(driver, soup, url, base_path):
             download_img_blob(driver, src, target_file_relative_storage_path)
             img['src'] = "/" + target_file_relative_storage_path
         else:
-            print("+++url,base_path", url, base_path)
             new_href, download_path = urls.get_new_href_and_download_path(url, src, i)
-            print("++", new_href, download_path)
 
             relative_path = base_path + new_href
             download_img_file(download_path, relative_path)            
