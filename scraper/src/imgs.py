@@ -1,3 +1,4 @@
+import os
 import base64
 import requests
 from src import urls
@@ -31,25 +32,28 @@ def download_img_blob(driver, src, target_file_relative_storage_path):
 def download_img_file(download_path, target_file_relative_storage_path):
     r = requests.get(download_path)
     if r.status_code == 200:
+        folder, file = os.path.split(target_file_relative_storage_path)
+        os.makedirs(folder, exist_ok=True)
         bytes = r.content
         write_binary_file(target_file_relative_storage_path, bytes)
 
-def download_imgs(driver, soup, url, resource_version_id):
-    url_without_path = urls.url_without_path(url)
+def download_imgs(driver, soup, url, base_path):
     i = 0
     for img in soup.find_all('img'):
         i += 1
         src = img.get('src')
-        target_file_relative_storage_path = resource_version_id + '/' + str(i) + '.jpg'
         
         if src.startswith('blob'):
+            target_file_relative_storage_path = base_path + '/' + str(i) + '.jpg'
             download_img_blob(driver, src, target_file_relative_storage_path)
+            img['src'] = "/" + target_file_relative_storage_path
         else:
-            _url_path, download_path = urls.get_artifact_url(url_without_path, src)
-            if not urls.url_with_simple_path(download_path):
-                continue
-            download_img_file(download_path, target_file_relative_storage_path)            
+            print("+++url,base_path", url, base_path)
+            new_href, download_path = urls.get_new_href_and_download_path(url, src, i)
+            print("++", new_href, download_path)
 
-        img['src'] = "/" + target_file_relative_storage_path
+            relative_path = base_path + new_href
+            download_img_file(download_path, relative_path)            
+            img['src'] = "/" + relative_path
 
     return soup

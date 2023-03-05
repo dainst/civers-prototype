@@ -16,10 +16,10 @@
   (if (= "a" title)
     "<a href=\"https://commons.wikimedia.org/wiki/File:V%C3%BDkop%C3%A1vky_u_%C5%BDelenic.jpg\"
                     target=\"_blank\">
-                    <img src=\"/640px-Výkopávky_u_Želenic.jpg\" height=\"320\"></a>"
+                    <img src=\"/640px-Vykopavky_u_Zelenic.jpg\" height=\"320\"></a>"
     "<a href=\"https://commons.wikimedia.org/wiki/File:Arrizala_-_Sorgi%C3%B1etxe_04.jpg\"
                     target=\"_blank\">
-                    <img src=\"/Arrizala_-_Sorgiñetxe_04.jpg\" height=\"320\"></a>"))
+                    <img src=\"/Arrizala_-_Sorginetxe_04.jpg\" height=\"320\"></a>"))
 
 (defn- get-form-template [title url img last-updated]
   (format (slurp (io/resource "public/detail-view.html"))
