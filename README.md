@@ -89,6 +89,12 @@ $ pip3 install beautifulsoup4
 $ pip3 install requests
 ```
 
+as well as a local installation of a Chrome webdriver. On Ubuntu, the following will do:
+
+```bash
+$ sudo apt-get install chromium-chromedriver
+```
+
 To scrape a website run this script from the root directory of the project:
 
 ```bash
